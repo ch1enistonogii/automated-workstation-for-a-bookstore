@@ -24,14 +24,14 @@ namespace automated_workstation_for_a_bookstore
 
         }
 
-        /*private void OpenMenu()
+        private void OpenMenu()
         //  Закрытие текущей формы и открытие новой
         {
-            catalog catalogForm = new catalog(connection);
+            menu menuForm = new menu(connection);
             this.Hide();
-            catalogForm.FormClosed += (s, args) => this.Close();
-            catalogForm.Show();
-        }*/
+            menuForm.FormClosed += (s, args) => this.Close();
+            menuForm.Show();
+        }
 
         private NpgsqlConnection CreateConnection()
         // Функция создает подключение к базе данных
@@ -122,11 +122,10 @@ namespace automated_workstation_for_a_bookstore
                     if (connection.State == ConnectionState.Open)
                     {
                         connection.Close();
-                        //OpenMenu();
+                        OpenMenu();
                     }
                 }
             }
         }
-
     }
 }
