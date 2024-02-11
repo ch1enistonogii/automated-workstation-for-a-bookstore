@@ -14,19 +14,59 @@ namespace automated_workstation_for_a_bookstore
 {
     public partial class redactor : Form
     {
-        public redactor(NpgsqlConnection connection)
+        string table;
+        private readonly IConnectionProvider connectionProvider;
+        private NpgsqlDataAdapter dataAdapter;
+        NpgsqlConnection connection;
+        private DataTable dataTable;
+
+
+        public redactor(IConnectionProvider connectionProvider)
         {
             InitializeComponent();
-            /*dataAdapter = new NpgsqlDataAdapter();
-            dataTable = new DataTable();*/
+            this.connectionProvider = connectionProvider;
+            connection = connectionProvider.GetConnection();
+            dataAdapter = new NpgsqlDataAdapter();
+            dataTable = new DataTable();
+            connection.Open();
         }
 
         private void redactor_Load(object sender, EventArgs e)
         {
-
+            dataGridView1.CellFormatting += dataGridView1_CellFormatting;
         }
 
-        /*private void LoadDataToDataGridView(string table)
+        private void button1_Click(object sender, EventArgs e)
+        {
+            LoadDataToDataGridView("Books");
+        }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        // Функция изменяет столбцы под изображения
+        {
+            if (dataGridView1.Columns[e.ColumnIndex].Name.Equals("book_img") && e.RowIndex >= 0)
+            {
+                byte[] byteArray = e.Value as byte[];
+
+                if (byteArray != null && byteArray.Length > 0)
+                {
+                    using (MemoryStream ms = new MemoryStream(byteArray))
+                    {
+                        Image image = Image.FromStream(ms);
+
+                        int targetWidth = 100;
+                        int targetHeight = 100;
+
+                        Image scaledImage = new Bitmap(image, targetWidth, targetHeight);
+                        e.Value = scaledImage;
+
+                        dataGridView1.Rows[e.RowIndex].Height = scaledImage.Height;
+                    }
+                }
+            }
+        }
+
+        private void LoadDataToDataGridView(string table)
         //  Функция заполняет dataGrid данными из SQL
         {
             try
@@ -44,7 +84,7 @@ namespace automated_workstation_for_a_bookstore
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка: {ex.Message}");
-            }*/
+            }
         }
     }
 }

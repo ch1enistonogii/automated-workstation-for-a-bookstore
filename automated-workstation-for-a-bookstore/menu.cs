@@ -14,11 +14,12 @@ namespace automated_workstation_for_a_bookstore
 {
     public partial class menu : Form
     {
-        private NpgsqlConnection connection;
-        public menu(NpgsqlConnection connection)
+        private readonly IConnectionProvider connectionProvider;
+
+        public menu(IConnectionProvider connectionProvider)
         {
             InitializeComponent();
-            this.connection = connection;
+            this.connectionProvider = connectionProvider;
         }
 
         private void menu_Load(object sender, EventArgs e)
@@ -33,10 +34,11 @@ namespace automated_workstation_for_a_bookstore
 
         private void openRedactorButton_Click(object sender, EventArgs e)
         {
-            redactor redactorForm = new redactor(connection);
+            redactor redactorForm = new redactor(connectionProvider);
             this.Hide();
             redactorForm.FormClosed += (s, args) => this.Close();
             redactorForm.Show();
         }
     }
 }
+

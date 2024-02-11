@@ -11,23 +11,20 @@ using Npgsql;
 
 namespace automated_workstation_for_a_bookstore
 {
-    public partial class login : Form
+    public partial class login : Form, IConnectionProvider
     {
-        NpgsqlConnection connection = new NpgsqlConnection();
+        private NpgsqlConnection connection;
+
         public login()
         {
             InitializeComponent();
         }
 
-        private void login_Load(object sender, EventArgs e)
-        {
-
-        }
+        public NpgsqlConnection GetConnection() => connection;
 
         private void OpenMenu()
-        //  Закрытие текущей формы и открытие новой
         {
-            menu menuForm = new menu(connection);
+            menu menuForm = new menu(this);
             this.Hide();
             menuForm.FormClosed += (s, args) => this.Close();
             menuForm.Show();
