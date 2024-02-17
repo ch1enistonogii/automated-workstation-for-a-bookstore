@@ -29,7 +29,10 @@ namespace automated_workstation_for_a_bookstore
 
         private void openCashboxButton_Click(object sender, EventArgs e)
         {
-
+            cashbox cashboxForm = new cashbox(connectionProvider);
+            this.Hide();
+            cashboxForm.FormClosed += (s, args) => this.Close();
+            cashboxForm.Show();
         }
 
         private void openRedactorButton_Click(object sender, EventArgs e)

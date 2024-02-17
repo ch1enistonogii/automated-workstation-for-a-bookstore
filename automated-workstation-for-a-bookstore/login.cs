@@ -18,6 +18,7 @@ namespace automated_workstation_for_a_bookstore
         public login()
         {
             InitializeComponent();
+            LoadConfig();
         }
 
         public NpgsqlConnection GetConnection() => connection;
@@ -92,35 +93,33 @@ namespace automated_workstation_for_a_bookstore
         private void CheckConnectionButton_Click(object sender, EventArgs e)
         //  Кнопка создает подключение, после чего открывает его и выводит статус
         {
+            connection = CreateConnection();
+            try
             {
-                connection = CreateConnection();
-                try
+                if (connection.State != ConnectionState.Open)
                 {
-                    if (connection.State != ConnectionState.Open)
-                    {
-                        connection.Open();
-                    }
-                    if (connection.State == ConnectionState.Open)
-                    {
-                        SaveConfigData();
-                        MessageBox.Show("Подключение установлено!");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Не удалось установить подключение к базе данных.");
-                    }
+                    connection.Open();
                 }
-                catch (Exception ex)
+                if (connection.State == ConnectionState.Open)
                 {
-                    MessageBox.Show($"Ошибка: {ex.Message}");
+                    SaveConfigData();
+                    MessageBox.Show("Подключение установлено!");
                 }
-                finally
+                else
                 {
-                    if (connection.State == ConnectionState.Open)
-                    {
-                        connection.Close();
-                        OpenMenu();
-                    }
+                    MessageBox.Show("Не удалось установить подключение к базе данных.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                    OpenMenu();
                 }
             }
         }

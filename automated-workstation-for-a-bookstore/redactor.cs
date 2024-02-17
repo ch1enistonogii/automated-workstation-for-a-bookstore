@@ -28,7 +28,6 @@ namespace automated_workstation_for_a_bookstore
             connection = connectionProvider.GetConnection();
             dataAdapter = new NpgsqlDataAdapter();
             dataTable = new DataTable();
-            connection.Open();
         }
 
         private void redactor_Load(object sender, EventArgs e)
@@ -38,7 +37,7 @@ namespace automated_workstation_for_a_bookstore
 
         private void button1_Click(object sender, EventArgs e)
         {
-            LoadDataToDataGridView("Books");
+            LoadDataToDataGridView(table);
         }
 
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -85,6 +84,39 @@ namespace automated_workstation_for_a_bookstore
             {
                 MessageBox.Show($"Ошибка: {ex.Message}");
             }
+        }
+
+        private void SelectTable_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (SelectTable.SelectedIndex == 0)
+            {
+                table = "books";
+            }
+            else
+            {
+                table = "orders";
+            }
+            LoadDataToDataGridView(table);
+        }
+
+        private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cashbox cashboxForm = new cashbox(connectionProvider);
+            this.Hide();
+            cashboxForm.FormClosed += (s, args) => this.Close();
+            cashboxForm.Show();
+        }
+
+        private void открытьВНовойВкладкеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cashbox cashboxForm = new cashbox(connectionProvider);
+            cashboxForm.Show();
+        }
+
+        private void addBookbutton_Click(object sender, EventArgs e)
+        {
+            addBook addBookForm = new addBook(connectionProvider);
+            addBookForm.Show();
         }
     }
 }

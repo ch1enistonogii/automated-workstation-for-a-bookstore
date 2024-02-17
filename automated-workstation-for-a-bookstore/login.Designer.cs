@@ -146,7 +146,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(808, 546);
+            ClientSize = new Size(360, 546);
             Controls.Add(CheckConnectionButton);
             Controls.Add(groupBox2);
             Controls.Add(groupBox4);
@@ -155,7 +155,6 @@
             Controls.Add(groupBox1);
             Name = "login";
             Text = "login";
-
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);

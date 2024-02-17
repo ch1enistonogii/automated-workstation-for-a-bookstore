@@ -1,6 +1,6 @@
 ﻿namespace automated_workstation_for_a_bookstore
 {
-    partial class redactor
+    partial class cashbox
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
             menuStrip1 = new MenuStrip();
             кассаToolStripMenuItem = new ToolStripMenuItem();
             открытьToolStripMenuItem = new ToolStripMenuItem();
@@ -36,33 +35,16 @@
             редакторToolStripMenuItem = new ToolStripMenuItem();
             открытьToolStripMenuItem1 = new ToolStripMenuItem();
             открытьВНовойВкладкеToolStripMenuItem1 = new ToolStripMenuItem();
-            label1 = new Label();
-            groupBox1 = new GroupBox();
-            addBookbutton = new Button();
-            groupBox3 = new GroupBox();
-            SelectTable = new ListBox();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             menuStrip1.SuspendLayout();
-            groupBox1.SuspendLayout();
-            groupBox3.SuspendLayout();
             SuspendLayout();
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(13, 22);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(953, 469);
-            dataGridView1.TabIndex = 0;
             // 
             // menuStrip1
             // 
             menuStrip1.Items.AddRange(new ToolStripItem[] { кассаToolStripMenuItem, редакторToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1091, 24);
-            menuStrip1.TabIndex = 2;
+            menuStrip1.Size = new Size(800, 24);
+            menuStrip1.TabIndex = 3;
             menuStrip1.Text = "menuStrip1";
             // 
             // кассаToolStripMenuItem
@@ -77,14 +59,12 @@
             открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
             открытьToolStripMenuItem.Size = new Size(213, 22);
             открытьToolStripMenuItem.Text = "Открыть";
-            открытьToolStripMenuItem.Click += открытьToolStripMenuItem_Click;
             // 
             // открытьВНовойВкладкеToolStripMenuItem
             // 
             открытьВНовойВкладкеToolStripMenuItem.Name = "открытьВНовойВкладкеToolStripMenuItem";
             открытьВНовойВкладкеToolStripMenuItem.Size = new Size(213, 22);
             открытьВНовойВкладкеToolStripMenuItem.Text = "Открыть в новой вкладке";
-            открытьВНовойВкладкеToolStripMenuItem.Click += открытьВНовойВкладкеToolStripMenuItem_Click;
             // 
             // редакторToolStripMenuItem
             // 
@@ -98,92 +78,32 @@
             открытьToolStripMenuItem1.Name = "открытьToolStripMenuItem1";
             открытьToolStripMenuItem1.Size = new Size(213, 22);
             открытьToolStripMenuItem1.Text = "Открыть";
+            открытьToolStripMenuItem1.Click += открытьToolStripMenuItem1_Click;
             // 
             // открытьВНовойВкладкеToolStripMenuItem1
             // 
             открытьВНовойВкладкеToolStripMenuItem1.Name = "открытьВНовойВкладкеToolStripMenuItem1";
             открытьВНовойВкладкеToolStripMenuItem1.Size = new Size(213, 22);
             открытьВНовойВкладкеToolStripMenuItem1.Text = "Открыть в новой вкладке";
+            открытьВНовойВкладкеToolStripMenuItem1.Click += открытьВНовойВкладкеToolStripMenuItem1_Click;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(25, 48);
-            label1.Name = "label1";
-            label1.Size = new Size(224, 25);
-            label1.TabIndex = 3;
-            label1.Text = "Редактор данных в БД";
-            // 
-            // groupBox1
-            // 
-            groupBox1.BackColor = SystemColors.ButtonFace;
-            groupBox1.Controls.Add(dataGridView1);
-            groupBox1.Controls.Add(addBookbutton);
-            groupBox1.Location = new Point(12, 104);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1054, 497);
-            groupBox1.TabIndex = 4;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Просмотр и редактирование";
-            // 
-            // addBookbutton
-            // 
-            addBookbutton.Location = new Point(972, 22);
-            addBookbutton.Name = "addBookbutton";
-            addBookbutton.Size = new Size(76, 41);
-            addBookbutton.TabIndex = 9;
-            addBookbutton.Text = "Добавить книгу";
-            addBookbutton.UseVisualStyleBackColor = true;
-            addBookbutton.Click += addBookbutton_Click;
-            // 
-            // groupBox3
-            // 
-            groupBox3.Controls.Add(SelectTable);
-            groupBox3.Location = new Point(841, 37);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(225, 61);
-            groupBox3.TabIndex = 8;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "Выбор текущей таблицы";
-            // 
-            // SelectTable
-            // 
-            SelectTable.FormattingEnabled = true;
-            SelectTable.ItemHeight = 15;
-            SelectTable.Items.AddRange(new object[] { "Книги", "Чеки" });
-            SelectTable.Location = new Point(6, 21);
-            SelectTable.Name = "SelectTable";
-            SelectTable.Size = new Size(213, 34);
-            SelectTable.TabIndex = 9;
-            SelectTable.SelectedIndexChanged += SelectTable_SelectedIndexChanged;
-            // 
-            // redactor
+            // cashbox
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Control;
-            ClientSize = new Size(1091, 613);
-            Controls.Add(groupBox3);
-            Controls.Add(groupBox1);
-            Controls.Add(label1);
+            ClientSize = new Size(800, 450);
             Controls.Add(menuStrip1);
-            MainMenuStrip = menuStrip1;
-            Name = "redactor";
-            Text = "redactor";
-            Load += redactor_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            Name = "cashbox";
+            Text = "cashbox";
+            Load += cashbox_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            groupBox1.ResumeLayout(false);
-            groupBox3.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dataGridView1;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem кассаToolStripMenuItem;
         private ToolStripMenuItem открытьToolStripMenuItem;
@@ -191,10 +111,5 @@
         private ToolStripMenuItem редакторToolStripMenuItem;
         private ToolStripMenuItem открытьToolStripMenuItem1;
         private ToolStripMenuItem открытьВНовойВкладкеToolStripMenuItem1;
-        private Label label1;
-        private GroupBox groupBox1;
-        private GroupBox groupBox3;
-        private ListBox SelectTable;
-        private Button addBookbutton;
     }
 }
