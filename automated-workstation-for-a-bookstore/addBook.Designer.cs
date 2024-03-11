@@ -32,11 +32,14 @@
             groupBox16 = new GroupBox();
             BookType_comboBox = new ComboBox();
             groupBox15 = new GroupBox();
+            BookPubyear_textBox = new TextBox();
             groupBox14 = new GroupBox();
             BookGenre_comboBox = new ComboBox();
             groupBox13 = new GroupBox();
             BookCategory_comboBox = new ComboBox();
             groupBox12 = new GroupBox();
+            addbook_button = new Button();
+            preview_button = new Button();
             BookID_checkBox = new CheckBox();
             groupBox10 = new GroupBox();
             BookAgelimit_comboBox = new ComboBox();
@@ -50,14 +53,19 @@
             groupBox5 = new GroupBox();
             BookCost_textBox = new TextBox();
             groupBox6 = new GroupBox();
+            openFileDialog_button = new PictureBox();
+            textBox1 = new TextBox();
             groupBox4 = new GroupBox();
             BookName_textBox = new TextBox();
             groupBox3 = new GroupBox();
             BookID_textBox = new TextBox();
             groupBox2 = new GroupBox();
+            hidePreview_button = new PictureBox();
             dataGridView1 = new DataGridView();
+            openFileDialog1 = new OpenFileDialog();
             groupBox1.SuspendLayout();
             groupBox16.SuspendLayout();
+            groupBox15.SuspendLayout();
             groupBox14.SuspendLayout();
             groupBox13.SuspendLayout();
             groupBox12.SuspendLayout();
@@ -66,9 +74,12 @@
             groupBox8.SuspendLayout();
             groupBox7.SuspendLayout();
             groupBox5.SuspendLayout();
+            groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)openFileDialog_button).BeginInit();
             groupBox4.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)hidePreview_button).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -117,12 +128,20 @@
             // 
             // groupBox15
             // 
+            groupBox15.Controls.Add(BookPubyear_textBox);
             groupBox15.Location = new Point(478, 101);
             groupBox15.Name = "groupBox15";
             groupBox15.Size = new Size(114, 73);
             groupBox15.TabIndex = 8;
             groupBox15.TabStop = false;
             groupBox15.Text = "Год издания";
+            // 
+            // BookPubyear_textBox
+            // 
+            BookPubyear_textBox.Location = new Point(6, 22);
+            BookPubyear_textBox.Name = "BookPubyear_textBox";
+            BookPubyear_textBox.Size = new Size(102, 23);
+            BookPubyear_textBox.TabIndex = 2;
             // 
             // groupBox14
             // 
@@ -139,7 +158,7 @@
             BookGenre_comboBox.DisplayMember = "Русский язык";
             BookGenre_comboBox.FormattingEnabled = true;
             BookGenre_comboBox.Items.AddRange(new object[] { "Фэнтези", "Роман", "Детективы", "Фантастика", "Поэзия", "Приключения", "Ужасы", "Триллеры", "Проза" });
-            BookGenre_comboBox.Location = new Point(5, 25);
+            BookGenre_comboBox.Location = new Point(5, 22);
             BookGenre_comboBox.Name = "BookGenre_comboBox";
             BookGenre_comboBox.Size = new Size(228, 23);
             BookGenre_comboBox.TabIndex = 3;
@@ -159,7 +178,7 @@
             BookCategory_comboBox.DisplayMember = "Русский язык";
             BookCategory_comboBox.FormattingEnabled = true;
             BookCategory_comboBox.Items.AddRange(new object[] { "Художественная литература", "Психологическая литература", "Детская литература", "Учебники и пособия", "Эзотерика", "Комиксы и графическая литература", "Искусство и культура", "Дом, досуг, хобби" });
-            BookCategory_comboBox.Location = new Point(4, 25);
+            BookCategory_comboBox.Location = new Point(4, 22);
             BookCategory_comboBox.Name = "BookCategory_comboBox";
             BookCategory_comboBox.Size = new Size(211, 23);
             BookCategory_comboBox.TabIndex = 3;
@@ -168,6 +187,8 @@
             // 
             // groupBox12
             // 
+            groupBox12.Controls.Add(addbook_button);
+            groupBox12.Controls.Add(preview_button);
             groupBox12.Controls.Add(BookID_checkBox);
             groupBox12.Location = new Point(956, 0);
             groupBox12.Name = "groupBox12";
@@ -175,6 +196,26 @@
             groupBox12.TabIndex = 10;
             groupBox12.TabStop = false;
             groupBox12.Text = "Дополнительно";
+            // 
+            // addbook_button
+            // 
+            addbook_button.Location = new Point(6, 126);
+            addbook_button.Name = "addbook_button";
+            addbook_button.Size = new Size(100, 37);
+            addbook_button.TabIndex = 2;
+            addbook_button.Text = "Добавить";
+            addbook_button.UseVisualStyleBackColor = true;
+            addbook_button.Click += addbook_button_Click;
+            // 
+            // preview_button
+            // 
+            preview_button.Location = new Point(6, 83);
+            preview_button.Name = "preview_button";
+            preview_button.Size = new Size(100, 37);
+            preview_button.TabIndex = 1;
+            preview_button.Text = "Предпросмотр";
+            preview_button.UseVisualStyleBackColor = true;
+            preview_button.Click += preview_button_Click;
             // 
             // BookID_checkBox
             // 
@@ -292,12 +333,32 @@
             // 
             // groupBox6
             // 
+            groupBox6.Controls.Add(openFileDialog_button);
+            groupBox6.Controls.Add(textBox1);
             groupBox6.Location = new Point(453, 22);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(140, 73);
             groupBox6.TabIndex = 4;
             groupBox6.TabStop = false;
             groupBox6.Text = "Картинка";
+            // 
+            // openFileDialog_button
+            // 
+            openFileDialog_button.BackColor = SystemColors.ActiveBorder;
+            openFileDialog_button.Location = new Point(112, 22);
+            openFileDialog_button.Name = "openFileDialog_button";
+            openFileDialog_button.Size = new Size(22, 23);
+            openFileDialog_button.SizeMode = PictureBoxSizeMode.Zoom;
+            openFileDialog_button.TabIndex = 10;
+            openFileDialog_button.TabStop = false;
+            openFileDialog_button.Click += openFileDialog_button_Click_1;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(6, 22);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(100, 23);
+            textBox1.TabIndex = 1;
             // 
             // groupBox4
             // 
@@ -337,6 +398,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(hidePreview_button);
             groupBox2.Controls.Add(dataGridView1);
             groupBox2.Location = new Point(12, 196);
             groupBox2.Name = "groupBox2";
@@ -344,21 +406,37 @@
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Предпросмотр";
+            groupBox2.Visible = false;
+            // 
+            // hidePreview_button
+            // 
+            hidePreview_button.Location = new Point(1038, 0);
+            hidePreview_button.Name = "hidePreview_button";
+            hidePreview_button.Size = new Size(24, 19);
+            hidePreview_button.SizeMode = PictureBoxSizeMode.Zoom;
+            hidePreview_button.TabIndex = 2;
+            hidePreview_button.TabStop = false;
+            hidePreview_button.Visible = false;
+            hidePreview_button.Click += hidePreview_button_Click;
             // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(6, 22);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
+            dataGridView1.RowTemplate.Height = 100;
             dataGridView1.Size = new Size(1056, 141);
             dataGridView1.TabIndex = 0;
+            // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
             // 
             // addBook
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1086, 378);
+            ClientSize = new Size(1086, 195);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "addBook";
@@ -366,6 +444,8 @@
             Load += addBook_Load;
             groupBox1.ResumeLayout(false);
             groupBox16.ResumeLayout(false);
+            groupBox15.ResumeLayout(false);
+            groupBox15.PerformLayout();
             groupBox14.ResumeLayout(false);
             groupBox13.ResumeLayout(false);
             groupBox12.ResumeLayout(false);
@@ -378,11 +458,15 @@
             groupBox7.PerformLayout();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
+            groupBox6.ResumeLayout(false);
+            groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)openFileDialog_button).EndInit();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)hidePreview_button).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
@@ -417,5 +501,12 @@
         private ComboBox BookType_comboBox;
         private ComboBox BookGenre_comboBox;
         private ComboBox BookCategory_comboBox;
+        private OpenFileDialog openFileDialog1;
+        private Button addbook_button;
+        private Button preview_button;
+        private TextBox BookPubyear_textBox;
+        private PictureBox hidePreview_button;
+        private TextBox textBox1;
+        private PictureBox openFileDialog_button;
     }
 }

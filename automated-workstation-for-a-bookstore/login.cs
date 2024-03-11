@@ -36,7 +36,7 @@ namespace automated_workstation_for_a_bookstore
         {
             try
             {
-                string configFilePath = "config.txt";
+                string configFilePath = "cfg\\config.txt";
                 string[] lines = File.ReadAllLines(configFilePath);
                 string connectionString = $"Server={textBoxIP.Text};Port={textBoxPort.Text};Database={textBoxDatabase.Text};User Id={textBoxUser.Text};Password={textBoxPassword.Text}";
                 return new NpgsqlConnection(connectionString);
@@ -56,7 +56,7 @@ namespace automated_workstation_for_a_bookstore
         private void LoadConfig()
         //  Функция загружает данные прердыдущего успешного подключения из config.txt, и использует их при подключении
         {
-            string configFilePath = "config.txt";
+            string configFilePath = "cfg\\config.txt";
 
             if (File.Exists(configFilePath) && File.ReadAllLines(configFilePath).Length > 0)
             {
@@ -78,7 +78,7 @@ namespace automated_workstation_for_a_bookstore
         private void SaveConfigData()
         //  Функция обновляет данные дял подключение в файле config.txt
         {
-            string configFilePath = "config.txt";
+            string configFilePath = "cfg\\config.txt";
 
             try
             {
@@ -122,6 +122,11 @@ namespace automated_workstation_for_a_bookstore
                     OpenMenu();
                 }
             }
+        }
+
+        private void login_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
