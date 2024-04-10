@@ -81,9 +81,9 @@ namespace automated_workstation_for_a_bookstore
             }
         }
 
-        public static int GetLastBookId(NpgsqlConnection connection)
+        private static int GetLastBookId(NpgsqlConnection connection)
         {
-            string query = "SELECT MAX(book_id) FROM books";
+            string query = "SELECT MAX(id) FROM books";
             NpgsqlCommand command = new NpgsqlCommand(query, connection);
 
             object result = command.ExecuteScalar();
@@ -174,6 +174,7 @@ namespace automated_workstation_for_a_bookstore
                 }
             }
             book_img = filePath;
+            ImgPath_textBox.Text = filePath;
         }
 
         private void addbook_button_Click(object sender, EventArgs e)
@@ -192,7 +193,8 @@ namespace automated_workstation_for_a_bookstore
             catch (Exception ex)
             {
                 // Ошибка при добавлении заказа
-                MessageBox.Show($"Ошибка при добавлении данных: {ex.Message}");
+                MessageBox.Show($"Ошибка при добавлении данных: {ex.Message}\n\n" +
+                                "Проверьте заполненные данные, они должны соответвовать названиям колонок а также не быть пустыми");
             }
         }
 
@@ -201,6 +203,11 @@ namespace automated_workstation_for_a_bookstore
             ActiveForm.Height = 232;
             groupBox2.Visible = false;
             hidePreview_button.Visible = false;
+        }
+
+        private void groupBox14_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -54,7 +54,7 @@
             BookCost_textBox = new TextBox();
             groupBox6 = new GroupBox();
             openFileDialog_button = new PictureBox();
-            textBox1 = new TextBox();
+            ImgPath_textBox = new TextBox();
             groupBox4 = new GroupBox();
             BookName_textBox = new TextBox();
             groupBox3 = new GroupBox();
@@ -152,6 +152,7 @@
             groupBox14.TabIndex = 8;
             groupBox14.TabStop = false;
             groupBox14.Text = "Жанр";
+            groupBox14.Enter += groupBox14_Enter;
             // 
             // BookGenre_comboBox
             // 
@@ -334,7 +335,7 @@
             // groupBox6
             // 
             groupBox6.Controls.Add(openFileDialog_button);
-            groupBox6.Controls.Add(textBox1);
+            groupBox6.Controls.Add(ImgPath_textBox);
             groupBox6.Location = new Point(453, 22);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(140, 73);
@@ -353,12 +354,12 @@
             openFileDialog_button.TabStop = false;
             openFileDialog_button.Click += openFileDialog_button_Click_1;
             // 
-            // textBox1
+            // ImgPath_textBox
             // 
-            textBox1.Location = new Point(6, 22);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(100, 23);
-            textBox1.TabIndex = 1;
+            ImgPath_textBox.Location = new Point(6, 22);
+            ImgPath_textBox.Name = "ImgPath_textBox";
+            ImgPath_textBox.Size = new Size(100, 23);
+            ImgPath_textBox.TabIndex = 1;
             // 
             // groupBox4
             // 
@@ -506,7 +507,7 @@
         private Button preview_button;
         private TextBox BookPubyear_textBox;
         private PictureBox hidePreview_button;
-        private TextBox textBox1;
+        private TextBox ImgPath_textBox;
         private PictureBox openFileDialog_button;
     }
 }

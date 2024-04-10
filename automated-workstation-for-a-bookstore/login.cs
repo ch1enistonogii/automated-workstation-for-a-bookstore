@@ -25,10 +25,10 @@ namespace automated_workstation_for_a_bookstore
 
         private void OpenMenu()
         {
-            menu menuForm = new menu(this);
+            cashbox cashboxForm = new cashbox(this);
             this.Hide();
-            menuForm.FormClosed += (s, args) => this.Close();
-            menuForm.Show();
+            cashboxForm.FormClosed += (s, args) => this.Close();
+            cashboxForm.Show();
         }
 
         private NpgsqlConnection CreateConnection()

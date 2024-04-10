@@ -14,10 +14,9 @@ namespace automated_workstation_for_a_bookstore
 {
     public partial class redactor : Form
     {
-        string table;
         private readonly IConnectionProvider connectionProvider;
-        private NpgsqlDataAdapter dataAdapter;
         NpgsqlConnection connection;
+        private NpgsqlDataAdapter dataAdapter;
         private DataTable dataTable;
 
 
@@ -33,17 +32,14 @@ namespace automated_workstation_for_a_bookstore
         private void redactor_Load(object sender, EventArgs e)
         {
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
+            LoadDataToDataGridView("Books");
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            LoadDataToDataGridView(table);
-        }
 
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         // Функция изменяет столбцы под изображения
         {
-            if (dataGridView1.Columns[e.ColumnIndex].Name.Equals("book_img") && e.RowIndex >= 0)
+            if (dataGridView1.Columns[e.ColumnIndex].Name.Equals("img") && e.RowIndex >= 0)
             {
                 byte[] byteArray = e.Value as byte[];
 
@@ -53,8 +49,8 @@ namespace automated_workstation_for_a_bookstore
                     {
                         Image image = Image.FromStream(ms);
 
-                        int targetWidth = 100;
-                        int targetHeight = 100;
+                        int targetWidth = 75;
+                        int targetHeight = 75;
 
                         Image scaledImage = new Bitmap(image, targetWidth, targetHeight);
                         e.Value = scaledImage;
@@ -86,19 +82,6 @@ namespace automated_workstation_for_a_bookstore
             }
         }
 
-        private void SelectTable_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (SelectTable.SelectedIndex == 0)
-            {
-                table = "books";
-            }
-            else
-            {
-                table = "orders";
-            }
-            LoadDataToDataGridView(table);
-        }
-
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             cashbox cashboxForm = new cashbox(connectionProvider);
@@ -117,6 +100,16 @@ namespace automated_workstation_for_a_bookstore
         {
             addBook addBookForm = new addBook(connectionProvider);
             addBookForm.Show();
+        }
+
+        private void открытьToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void открытьВНовойВкладкеToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

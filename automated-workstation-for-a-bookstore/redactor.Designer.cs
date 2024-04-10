@@ -39,12 +39,12 @@
             label1 = new Label();
             groupBox1 = new GroupBox();
             addBookbutton = new Button();
-            groupBox3 = new GroupBox();
-            SelectTable = new ListBox();
+            чекиToolStripMenuItem = new ToolStripMenuItem();
+            открытьToolStripMenuItem2 = new ToolStripMenuItem();
+            открытьВНовойВкладкеToolStripMenuItem2 = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             menuStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
-            groupBox3.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridView1
@@ -58,7 +58,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { кассаToolStripMenuItem, редакторToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { кассаToolStripMenuItem, редакторToolStripMenuItem, чекиToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1091, 24);
@@ -137,26 +137,26 @@
             addBookbutton.UseVisualStyleBackColor = true;
             addBookbutton.Click += addBookbutton_Click;
             // 
-            // groupBox3
+            // чекиToolStripMenuItem
             // 
-            groupBox3.Controls.Add(SelectTable);
-            groupBox3.Location = new Point(841, 37);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(225, 61);
-            groupBox3.TabIndex = 8;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "Выбор текущей таблицы";
+            чекиToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { открытьToolStripMenuItem2, открытьВНовойВкладкеToolStripMenuItem2 });
+            чекиToolStripMenuItem.Name = "чекиToolStripMenuItem";
+            чекиToolStripMenuItem.Size = new Size(46, 20);
+            чекиToolStripMenuItem.Text = "Чеки";
             // 
-            // SelectTable
+            // открытьToolStripMenuItem2
             // 
-            SelectTable.FormattingEnabled = true;
-            SelectTable.ItemHeight = 15;
-            SelectTable.Items.AddRange(new object[] { "Книги", "Чеки" });
-            SelectTable.Location = new Point(6, 21);
-            SelectTable.Name = "SelectTable";
-            SelectTable.Size = new Size(213, 34);
-            SelectTable.TabIndex = 9;
-            SelectTable.SelectedIndexChanged += SelectTable_SelectedIndexChanged;
+            открытьToolStripMenuItem2.Name = "открытьToolStripMenuItem2";
+            открытьToolStripMenuItem2.Size = new Size(213, 22);
+            открытьToolStripMenuItem2.Text = "Открыть";
+            открытьToolStripMenuItem2.Click += открытьToolStripMenuItem2_Click;
+            // 
+            // открытьВНовойВкладкеToolStripMenuItem2
+            // 
+            открытьВНовойВкладкеToolStripMenuItem2.Name = "открытьВНовойВкладкеToolStripMenuItem2";
+            открытьВНовойВкладкеToolStripMenuItem2.Size = new Size(213, 22);
+            открытьВНовойВкладкеToolStripMenuItem2.Text = "Открыть в новой вкладке";
+            открытьВНовойВкладкеToolStripMenuItem2.Click += открытьВНовойВкладкеToolStripMenuItem2_Click;
             // 
             // redactor
             // 
@@ -164,7 +164,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(1091, 613);
-            Controls.Add(groupBox3);
             Controls.Add(groupBox1);
             Controls.Add(label1);
             Controls.Add(menuStrip1);
@@ -176,7 +175,6 @@
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             groupBox1.ResumeLayout(false);
-            groupBox3.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -193,8 +191,9 @@
         private ToolStripMenuItem открытьВНовойВкладкеToolStripMenuItem1;
         private Label label1;
         private GroupBox groupBox1;
-        private GroupBox groupBox3;
-        private ListBox SelectTable;
         private Button addBookbutton;
+        private ToolStripMenuItem чекиToolStripMenuItem;
+        private ToolStripMenuItem открытьToolStripMenuItem2;
+        private ToolStripMenuItem открытьВНовойВкладкеToolStripMenuItem2;
     }
 }
