@@ -31,6 +31,20 @@ namespace automated_workstation_for_a_bookstore
         {
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
             LoadDataToDataGridView("Books");
+
+            dataGridView2.ColumnCount = 12;
+            dataGridView2.Columns[0].Name = "id";
+            dataGridView2.Columns[1].Name = "name";
+            dataGridView2.Columns[2].Name = "cost";
+            dataGridView2.Columns[3].Name = "img";
+            dataGridView2.Columns[4].Name = "author";
+            dataGridView2.Columns[5].Name = "pubhouse";
+            dataGridView2.Columns[6].Name = "category";
+            dataGridView2.Columns[7].Name = "genre";
+            dataGridView2.Columns[8].Name = "pubyear";
+            dataGridView2.Columns[9].Name = "type";
+            dataGridView2.Columns[10].Name = "lang";
+            dataGridView2.Columns[11].Name = "agelimit";
         }
 
         private void LoadDataToDataGridView(string table)
@@ -51,6 +65,33 @@ namespace automated_workstation_for_a_bookstore
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            if (SearchTextBox.Text.Length != 0)
+            {
+                try
+                {
+                    DataTable newDataTable = new DataTable();
+
+                    // Запрос для получения данных из выбранной таблицы
+                    string query = $"SELECT * FROM books WHERE {SearchComboBox.Text} = '{SearchTextBox.Text}';";
+                    dataAdapter.SelectCommand = new NpgsqlCommand(query, connection);
+                    dataAdapter.Fill(newDataTable);
+
+                    // Привязываем данные к DataGridView
+                    dataGridView1.DataSource = newDataTable;
+                }
+                catch
+                {
+                    LoadDataToDataGridView("Books");
+                }
+            }
+            else
+            {
+                LoadDataToDataGridView("Books");
             }
         }
 
@@ -78,6 +119,23 @@ namespace automated_workstation_for_a_bookstore
                 }
             }
         }
+        private void dataGridView1_SelectionChanged_1(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
+
+                // Получаем значения каждой ячейки выделенной строки
+                object[] rowData = new object[12];
+                for (int i = 0; i < 12; i++)
+                {
+                    rowData[i] = selectedRow.Cells[i].Value;
+                }
+
+                // Добавляем данные в новую строку в dataGridView2
+                dataGridView2.Rows.Add(rowData);
+            }
+        }
 
         private void открытьToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -101,6 +159,21 @@ namespace automated_workstation_for_a_bookstore
         private void открытьВНовойВкладкеToolStripMenuItem2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Func started", "sadasd");
         }
     }
 }
