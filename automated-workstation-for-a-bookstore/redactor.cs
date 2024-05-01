@@ -1,5 +1,6 @@
 ﻿using Npgsql;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -110,6 +111,40 @@ namespace automated_workstation_for_a_bookstore
         private void открытьВНовойВкладкеToolStripMenuItem2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            // Получить выбранную строку
+            DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
+            // Проверить, есть ли выбранная строка
+            if (selectedRow != null)
+            {
+                // Получить значение первичного ключа из выбранной строки
+                int id = (int)selectedRow.Cells["id"].Value; // Предполагается, что столбец "id" содержит первичный ключ
+
+                // Удалить строку из базы данных
+                    connection.Open();
+
+                    using (NpgsqlCommand command = new NpgsqlCommand("DELETE FROM Books WHERE id = @id", connection))
+                    {
+                        command.Parameters.AddWithValue("@id", id);
+                        command.ExecuteNonQuery();
+                    }
+
+                // Обновить DataGridView
+                dataGridView1.Rows.Remove(selectedRow);
+            }
+            else
+            {
+                // Вывести сообщение об ошибке, если строка не выбрана
+                MessageBox.Show("Пожалуйста, выберите строку для удаления.");
+            }
+        }
+
+        private void RefreshButton_Click(object sender, EventArgs e)
+        {
+            LoadDataToDataGridView("Books");
         }
     }
 }

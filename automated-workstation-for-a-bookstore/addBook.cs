@@ -56,17 +56,17 @@ namespace automated_workstation_for_a_bookstore
 
             // Создаем столбцы для DataGridView
             dataGridView1.ColumnCount = 12;
-            dataGridView1.Columns[1].Name = "book_id";
-            dataGridView1.Columns[2].Name = "book_name";
-            dataGridView1.Columns[3].Name = "book_cost";
-            dataGridView1.Columns[4].Name = "book_author";
-            dataGridView1.Columns[5].Name = "book_pubhouse";
-            dataGridView1.Columns[6].Name = "book_category";
-            dataGridView1.Columns[7].Name = "book_genre";
-            dataGridView1.Columns[8].Name = "book_pubyear";
-            dataGridView1.Columns[9].Name = "book_type";
-            dataGridView1.Columns[10].Name = "book_lang";
-            dataGridView1.Columns[11].Name = "book_agelimit";
+            dataGridView1.Columns[1].Name = "id";
+            dataGridView1.Columns[2].Name = "name";
+            dataGridView1.Columns[3].Name = "cost";
+            dataGridView1.Columns[4].Name = "author";
+            dataGridView1.Columns[5].Name = "pubhouse";
+            dataGridView1.Columns[6].Name = "category";
+            dataGridView1.Columns[7].Name = "genre";
+            dataGridView1.Columns[8].Name = "pubyear";
+            dataGridView1.Columns[9].Name = "type";
+            dataGridView1.Columns[10].Name = "lang";
+            dataGridView1.Columns[11].Name = "agelimit";
         }
 
         private void BookIDchecbox_CheckedChanged(object sender, EventArgs e)
@@ -144,7 +144,7 @@ namespace automated_workstation_for_a_bookstore
             dataGridView1.Rows.Clear();
             Image image = Image.FromFile(book_img);
             // Заполняем DataGridView данными о книгах
-            dataGridView1.Rows.Add(image, BookID_textBox.Text, BookName_textBox.Text, BookCost_textBox.Text, BookAuthor_textBox.Text, BookAuthor_textBox.Text,
+            dataGridView1.Rows.Add(image, BookID_textBox.Text, BookName_textBox.Text, BookCost_textBox.Text, BookAuthor_textBox.Text, BookPubhouse_textBox.Text,
             BookCategory_comboBox.Text, BookGenre_comboBox.Text, BookPubyear_textBox.Text, BookType_comboBox.Text, BookLang_comboBox.Text, BookAgelimit_comboBox.Text);
         }
 
@@ -182,7 +182,7 @@ namespace automated_workstation_for_a_bookstore
             try
             {
                 string query =
-                "INSERT INTO books (book_id, book_name, book_cost, book_img, book_author, book_pubhouse, book_category, book_genre, book_pubyear, book_type, book_lang, book_agelimit)" +
+                "INSERT INTO books (id, name, cost, img, author, pubhouse, category, genre, pubyear, type, lang, agelimit)" +
                 $"VALUES ({BookID_textBox.Text}, '{BookName_textBox.Text}', '{BookCost_textBox.Text}', pg_read_binary_file('{book_img}')::bytea, '{BookAuthor_textBox.Text}', '{BookPubhouse_textBox.Text}', '{BookCategory_comboBox.Text}', '{BookGenre_comboBox.Text}', '{BookPubyear_textBox.Text}', '{BookType_comboBox.Text}', '{BookLang_comboBox.Text}', '{BookAgelimit_comboBox.Text}')";
 
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
@@ -203,11 +203,6 @@ namespace automated_workstation_for_a_bookstore
             ActiveForm.Height = 232;
             groupBox2.Visible = false;
             hidePreview_button.Visible = false;
-        }
-
-        private void groupBox14_Enter(object sender, EventArgs e)
-        {
-
         }
     }
 }

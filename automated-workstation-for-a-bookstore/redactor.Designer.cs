@@ -36,12 +36,14 @@
             редакторToolStripMenuItem = new ToolStripMenuItem();
             открытьToolStripMenuItem1 = new ToolStripMenuItem();
             открытьВНовойВкладкеToolStripMenuItem1 = new ToolStripMenuItem();
-            label1 = new Label();
-            groupBox1 = new GroupBox();
-            addBookbutton = new Button();
             чекиToolStripMenuItem = new ToolStripMenuItem();
             открытьToolStripMenuItem2 = new ToolStripMenuItem();
             открытьВНовойВкладкеToolStripMenuItem2 = new ToolStripMenuItem();
+            label1 = new Label();
+            groupBox1 = new GroupBox();
+            DeleteButton = new Button();
+            addBookbutton = new Button();
+            RefreshButton = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             menuStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -105,38 +107,6 @@
             открытьВНовойВкладкеToolStripMenuItem1.Size = new Size(213, 22);
             открытьВНовойВкладкеToolStripMenuItem1.Text = "Открыть в новой вкладке";
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(25, 48);
-            label1.Name = "label1";
-            label1.Size = new Size(224, 25);
-            label1.TabIndex = 3;
-            label1.Text = "Редактор данных в БД";
-            // 
-            // groupBox1
-            // 
-            groupBox1.BackColor = SystemColors.ButtonFace;
-            groupBox1.Controls.Add(dataGridView1);
-            groupBox1.Controls.Add(addBookbutton);
-            groupBox1.Location = new Point(12, 104);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1054, 497);
-            groupBox1.TabIndex = 4;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Просмотр и редактирование";
-            // 
-            // addBookbutton
-            // 
-            addBookbutton.Location = new Point(972, 22);
-            addBookbutton.Name = "addBookbutton";
-            addBookbutton.Size = new Size(76, 41);
-            addBookbutton.TabIndex = 9;
-            addBookbutton.Text = "Добавить книгу";
-            addBookbutton.UseVisualStyleBackColor = true;
-            addBookbutton.Click += addBookbutton_Click;
-            // 
             // чекиToolStripMenuItem
             // 
             чекиToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { открытьToolStripMenuItem2, открытьВНовойВкладкеToolStripMenuItem2 });
@@ -157,6 +127,60 @@
             открытьВНовойВкладкеToolStripMenuItem2.Size = new Size(213, 22);
             открытьВНовойВкладкеToolStripMenuItem2.Text = "Открыть в новой вкладке";
             открытьВНовойВкладкеToolStripMenuItem2.Click += открытьВНовойВкладкеToolStripMenuItem2_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(25, 48);
+            label1.Name = "label1";
+            label1.Size = new Size(224, 25);
+            label1.TabIndex = 3;
+            label1.Text = "Редактор данных в БД";
+            // 
+            // groupBox1
+            // 
+            groupBox1.BackColor = SystemColors.ButtonFace;
+            groupBox1.Controls.Add(RefreshButton);
+            groupBox1.Controls.Add(DeleteButton);
+            groupBox1.Controls.Add(dataGridView1);
+            groupBox1.Controls.Add(addBookbutton);
+            groupBox1.Location = new Point(12, 104);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(1054, 497);
+            groupBox1.TabIndex = 4;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Просмотр и редактирование";
+            // 
+            // DeleteButton
+            // 
+            DeleteButton.Location = new Point(972, 116);
+            DeleteButton.Name = "DeleteButton";
+            DeleteButton.Size = new Size(76, 41);
+            DeleteButton.TabIndex = 10;
+            DeleteButton.Text = "Удалить книгу";
+            DeleteButton.UseVisualStyleBackColor = true;
+            DeleteButton.Click += DeleteButton_Click;
+            // 
+            // addBookbutton
+            // 
+            addBookbutton.Location = new Point(972, 69);
+            addBookbutton.Name = "addBookbutton";
+            addBookbutton.Size = new Size(76, 41);
+            addBookbutton.TabIndex = 9;
+            addBookbutton.Text = "Добавить книгу";
+            addBookbutton.UseVisualStyleBackColor = true;
+            addBookbutton.Click += addBookbutton_Click;
+            // 
+            // RefreshButton
+            // 
+            RefreshButton.Location = new Point(972, 22);
+            RefreshButton.Name = "RefreshButton";
+            RefreshButton.Size = new Size(76, 41);
+            RefreshButton.TabIndex = 11;
+            RefreshButton.Text = "Обновить таблицу";
+            RefreshButton.UseVisualStyleBackColor = true;
+            RefreshButton.Click += RefreshButton_Click;
             // 
             // redactor
             // 
@@ -195,5 +219,7 @@
         private ToolStripMenuItem чекиToolStripMenuItem;
         private ToolStripMenuItem открытьToolStripMenuItem2;
         private ToolStripMenuItem открытьВНовойВкладкеToolStripMenuItem2;
+        private Button DeleteButton;
+        private Button RefreshButton;
     }
 }

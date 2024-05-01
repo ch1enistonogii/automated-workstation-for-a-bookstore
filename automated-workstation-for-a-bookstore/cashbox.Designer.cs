@@ -52,12 +52,15 @@
             SearchComboBox = new ComboBox();
             SearchTextBox = new TextBox();
             SearchButton = new Button();
+            label4 = new Label();
+            label5 = new Label();
             menuStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             groupBox3.SuspendLayout();
+            groupBox4.SuspendLayout();
             groupBox5.SuspendLayout();
             SuspendLayout();
             // 
@@ -122,14 +125,12 @@
             открытьToolStripMenuItem2.Name = "открытьToolStripMenuItem2";
             открытьToolStripMenuItem2.Size = new Size(213, 22);
             открытьToolStripMenuItem2.Text = "Открыть";
-            открытьToolStripMenuItem2.Click += открытьToolStripMenuItem2_Click;
             // 
             // открытьВНовойВкладкеToolStripMenuItem2
             // 
             открытьВНовойВкладкеToolStripMenuItem2.Name = "открытьВНовойВкладкеToolStripMenuItem2";
             открытьВНовойВкладкеToolStripMenuItem2.Size = new Size(213, 22);
             открытьВНовойВкладкеToolStripMenuItem2.Text = "Открыть в новой вкладке";
-            открытьВНовойВкладкеToolStripMenuItem2.Click += открытьВНовойВкладкеToolStripMenuItem2_Click;
             // 
             // label1
             // 
@@ -179,6 +180,7 @@
             dataGridView2.RowTemplate.Height = 25;
             dataGridView2.Size = new Size(864, 150);
             dataGridView2.TabIndex = 1;
+            dataGridView2.SelectionChanged += dataGridView2_SelectionChanged;
             // 
             // groupBox3
             // 
@@ -202,6 +204,8 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(label5);
+            groupBox4.Controls.Add(label4);
             groupBox4.Location = new Point(894, 407);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(185, 178);
@@ -231,7 +235,6 @@
             label3.Size = new Size(73, 15);
             label3.TabIndex = 4;
             label3.Text = "по колонке:";
-            label3.Click += label3_Click;
             // 
             // label2
             // 
@@ -241,7 +244,6 @@
             label2.Size = new Size(45, 15);
             label2.TabIndex = 3;
             label2.Text = "Поиск:";
-            label2.Click += label2_Click;
             // 
             // SearchComboBox
             // 
@@ -271,6 +273,26 @@
             SearchButton.UseVisualStyleBackColor = true;
             SearchButton.Click += SearchButton_Click;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.Location = new Point(39, 40);
+            label4.Name = "label4";
+            label4.Size = new Size(21, 21);
+            label4.TabIndex = 0;
+            label4.Text = "=";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.Location = new Point(77, 40);
+            label5.Name = "label5";
+            label5.Size = new Size(22, 25);
+            label5.TabIndex = 1;
+            label5.Text = "0";
+            // 
             // cashbox
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -293,6 +315,8 @@
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             groupBox3.ResumeLayout(false);
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
             ResumeLayout(false);
@@ -325,5 +349,7 @@
         private Label label3;
         private Label label2;
         private ComboBox SearchComboBox;
+        private Label label5;
+        private Label label4;
     }
 }

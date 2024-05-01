@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -32,19 +33,18 @@ namespace automated_workstation_for_a_bookstore
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
             LoadDataToDataGridView("Books");
 
-            dataGridView2.ColumnCount = 12;
+            dataGridView2.ColumnCount = 11;
             dataGridView2.Columns[0].Name = "id";
             dataGridView2.Columns[1].Name = "name";
             dataGridView2.Columns[2].Name = "cost";
-            dataGridView2.Columns[3].Name = "img";
-            dataGridView2.Columns[4].Name = "author";
-            dataGridView2.Columns[5].Name = "pubhouse";
-            dataGridView2.Columns[6].Name = "category";
-            dataGridView2.Columns[7].Name = "genre";
-            dataGridView2.Columns[8].Name = "pubyear";
-            dataGridView2.Columns[9].Name = "type";
-            dataGridView2.Columns[10].Name = "lang";
-            dataGridView2.Columns[11].Name = "agelimit";
+            dataGridView2.Columns[3].Name = "author";
+            dataGridView2.Columns[4].Name = "pubhouse";
+            dataGridView2.Columns[5].Name = "category";
+            dataGridView2.Columns[6].Name = "genre";
+            dataGridView2.Columns[7].Name = "pubyear";
+            dataGridView2.Columns[8].Name = "type";
+            dataGridView2.Columns[9].Name = "lang";
+            dataGridView2.Columns[10].Name = "agelimit";
         }
 
         private void LoadDataToDataGridView(string table)
@@ -124,16 +124,46 @@ namespace automated_workstation_for_a_bookstore
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-
-                // Получаем значения каждой ячейки выделенной строки
-                object[] rowData = new object[12];
-                for (int i = 0; i < 12; i++)
+                object[] rowData = new object[11];
+                int dataIndex = 0;
+                for (int i = 0; i < selectedRow.Cells.Count; i++)
                 {
-                    rowData[i] = selectedRow.Cells[i].Value;
+                    if (i != 3)
+                    {
+                        rowData[dataIndex] = selectedRow.Cells[i].Value;
+                        dataIndex++;
+                    }
                 }
 
                 // Добавляем данные в новую строку в dataGridView2
                 dataGridView2.Rows.Add(rowData);
+                CalculateCost();
+            }
+        }
+        private void dataGridView2_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView2.SelectedRows.Count > 0)
+            {
+                // Получаем выделенную строку
+                DataGridViewRow selectedRow = dataGridView2.SelectedRows[0];
+
+                // Проверяем, все ли ячейки пустые
+                bool isEmpty = true;
+                foreach (DataGridViewCell cell in selectedRow.Cells)
+                {
+                    if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                    {
+                        isEmpty = false;
+                        break;
+                    }
+                }
+
+                // Если строка не пустая, удаляем её
+                if (!isEmpty)
+                {
+                    dataGridView2.Rows.RemoveAt(selectedRow.Index);
+                    CalculateCost();
+                }
             }
         }
 
@@ -151,29 +181,24 @@ namespace automated_workstation_for_a_bookstore
             redactorForm.Show();
         }
 
-        private void открытьToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void открытьВНовойВкладкеToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Func started", "sadasd");
+
+        }
+
+        private void CalculateCost()
+        {
+            double sum = 0.0;
+
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                if (!row.IsNewRow && row.Cells[2].Value != null && double.TryParse(row.Cells[2].Value.ToString(), out double cellValue))
+                {
+                    sum += cellValue;
+                }
+            }
+
+            label5.Text = sum.ToString();
         }
     }
 }

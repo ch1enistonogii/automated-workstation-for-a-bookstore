@@ -152,7 +152,6 @@
             groupBox14.TabIndex = 8;
             groupBox14.TabStop = false;
             groupBox14.Text = "Жанр";
-            groupBox14.Enter += groupBox14_Enter;
             // 
             // BookGenre_comboBox
             // 
