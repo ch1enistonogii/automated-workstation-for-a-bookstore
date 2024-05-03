@@ -19,6 +19,8 @@ namespace automated_workstation_for_a_bookstore
         NpgsqlConnection connection;
         private NpgsqlDataAdapter dataAdapter;
         private DataTable dataTable;
+
+        double totalcost = 0.0;
         public cashbox(IConnectionProvider connectionProvider)
         {
             InitializeComponent();
@@ -198,7 +200,48 @@ namespace automated_workstation_for_a_bookstore
                 }
             }
 
-            label5.Text = sum.ToString();
+            totalcost = sum;
+            label5.Text = totalcost.ToString();
+
+            if (totalcost != 0)
+            {
+                label5.Text += " тенге";
+            }
+        }
+
+        private void orderButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                connection.Open();
+                string query =
+                "INSERT INTO orders (id, time, checklist, sum)" +
+                $"VALUES ('{GetLastOrder(connection)}', )";
+
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+
+                // Выполнение запроса
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+
+        private static int GetLastOrder(NpgsqlConnection connection)
+        {
+            string query = "SELECT MAX(id) FROM orders";
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+
+            object result = command.ExecuteScalar();
+
+            if (result == null || result == DBNull.Value)
+            {
+                return 0;
+            }
+            int lastOrderId = Convert.ToInt32(result) + 1;
+            return lastOrderId;
         }
     }
 }

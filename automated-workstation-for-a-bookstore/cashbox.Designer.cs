@@ -46,14 +46,15 @@
             groupBox3 = new GroupBox();
             button1 = new Button();
             groupBox4 = new GroupBox();
+            orderButton = new Button();
+            label5 = new Label();
+            label4 = new Label();
             groupBox5 = new GroupBox();
             label3 = new Label();
             label2 = new Label();
             SearchComboBox = new ComboBox();
             SearchTextBox = new TextBox();
             SearchButton = new Button();
-            label4 = new Label();
-            label5 = new Label();
             menuStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -204,6 +205,7 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(orderButton);
             groupBox4.Controls.Add(label5);
             groupBox4.Controls.Add(label4);
             groupBox4.Location = new Point(894, 407);
@@ -212,6 +214,38 @@
             groupBox4.TabIndex = 8;
             groupBox4.TabStop = false;
             groupBox4.Text = "К оплате";
+            // 
+            // orderButton
+            // 
+            orderButton.BackColor = Color.LightGreen;
+            orderButton.Font = new Font("Segoe UI Semibold", 12.75F, FontStyle.Bold, GraphicsUnit.Point);
+            orderButton.Location = new Point(6, 123);
+            orderButton.Name = "orderButton";
+            orderButton.Size = new Size(173, 49);
+            orderButton.TabIndex = 1;
+            orderButton.Text = "Оформить покупку";
+            orderButton.UseVisualStyleBackColor = false;
+            orderButton.Click += orderButton_Click;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.Location = new Point(55, 52);
+            label5.Name = "label5";
+            label5.Size = new Size(22, 25);
+            label5.TabIndex = 1;
+            label5.Text = "0";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.Location = new Point(38, 53);
+            label4.Name = "label4";
+            label4.Size = new Size(21, 21);
+            label4.TabIndex = 0;
+            label4.Text = "=";
             // 
             // groupBox5
             // 
@@ -273,26 +307,6 @@
             SearchButton.UseVisualStyleBackColor = true;
             SearchButton.Click += SearchButton_Click;
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(39, 40);
-            label4.Name = "label4";
-            label4.Size = new Size(21, 21);
-            label4.TabIndex = 0;
-            label4.Text = "=";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(77, 40);
-            label5.Name = "label5";
-            label5.Size = new Size(22, 25);
-            label5.TabIndex = 1;
-            label5.Text = "0";
-            // 
             // cashbox
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -351,5 +365,6 @@
         private ComboBox SearchComboBox;
         private Label label5;
         private Label label4;
+        private Button orderButton;
     }
 }
