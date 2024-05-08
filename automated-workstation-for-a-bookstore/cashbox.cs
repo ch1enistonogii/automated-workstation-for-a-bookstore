@@ -28,6 +28,8 @@ namespace automated_workstation_for_a_bookstore
             connection = connectionProvider.GetConnection();
             dataAdapter = new NpgsqlDataAdapter();
             dataTable = new DataTable();
+
+            connection.Open();
         }
 
         private void cashbox_Load(object sender, EventArgs e)
@@ -183,6 +185,20 @@ namespace automated_workstation_for_a_bookstore
             redactorForm.Show();
         }
 
+        private void открытьToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            orders ordersForm = new orders(connectionProvider);
+            this.Hide();
+            ordersForm.FormClosed += (s, args) => this.Close();
+            ordersForm.Show();
+        }
+
+        private void открытьВНовойВкладкеToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            orders ordersForm = new orders(connectionProvider);
+            ordersForm.Show();
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
 
@@ -213,14 +229,12 @@ namespace automated_workstation_for_a_bookstore
         {
             try
             {
-                connection.Open();
                 string query =
-                "INSERT INTO orders (id, time, checklist, sum)" +
-                $"VALUES ('{GetLastOrder(connection)}', )";
+                "INSERT INTO orders (id, checklist, sum)" +
+                $"VALUES ('{GetLastOrder(connection)}', '{GetChecklist(connection)}', '{totalcost}')";
 
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
 
-                // Выполнение запроса
                 command.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -229,7 +243,7 @@ namespace automated_workstation_for_a_bookstore
             }
         }
 
-        private static int GetLastOrder(NpgsqlConnection connection)
+        private int GetLastOrder(NpgsqlConnection connection)
         {
             string query = "SELECT MAX(id) FROM orders";
             NpgsqlCommand command = new NpgsqlCommand(query, connection);
@@ -242,6 +256,25 @@ namespace automated_workstation_for_a_bookstore
             }
             int lastOrderId = Convert.ToInt32(result) + 1;
             return lastOrderId;
+        }
+
+        private string GetChecklist(NpgsqlConnection connection)
+        {
+            string checklist = "";
+
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                if (!row.IsNewRow && row.Cells[0].Value != null)
+                {
+                    double cellValue;
+                    if (double.TryParse(row.Cells[0].Value.ToString(), out cellValue))
+                    {
+                        checklist += cellValue.ToString() + ",";
+                    }
+                }
+            }
+
+            return checklist.TrimEnd(',');
         }
     }
 }

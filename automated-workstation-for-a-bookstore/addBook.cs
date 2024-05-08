@@ -29,11 +29,12 @@ namespace automated_workstation_for_a_bookstore
             InitializeComponent();
             this.connectionProvider = connectionProvider;
             connection = connectionProvider.GetConnection();
+
+            connection.Open();
         }
 
         private void addBook_Load(object sender, EventArgs e)
         {
-            connection.Open();
             BookID_textBox.Text = GetLastBookId(connection).ToString();
 
             DataGridViewImageColumn imageColumn = new DataGridViewImageColumn();

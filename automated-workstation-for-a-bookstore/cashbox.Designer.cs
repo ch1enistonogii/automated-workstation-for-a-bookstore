@@ -126,12 +126,14 @@
             открытьToolStripMenuItem2.Name = "открытьToolStripMenuItem2";
             открытьToolStripMenuItem2.Size = new Size(213, 22);
             открытьToolStripMenuItem2.Text = "Открыть";
+            открытьToolStripMenuItem2.Click += открытьToolStripMenuItem2_Click;
             // 
             // открытьВНовойВкладкеToolStripMenuItem2
             // 
             открытьВНовойВкладкеToolStripMenuItem2.Name = "открытьВНовойВкладкеToolStripMenuItem2";
             открытьВНовойВкладкеToolStripMenuItem2.Size = new Size(213, 22);
             открытьВНовойВкладкеToolStripMenuItem2.Text = "Открыть в новой вкладке";
+            открытьВНовойВкладкеToolStripMenuItem2.Click += открытьВНовойВкладкеToolStripMenuItem2_Click;
             // 
             // label1
             // 
