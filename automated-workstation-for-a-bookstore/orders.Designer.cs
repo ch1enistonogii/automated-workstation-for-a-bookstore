@@ -32,8 +32,13 @@
             groupBox1 = new GroupBox();
             dataGridView1 = new DataGridView();
             groupBox2 = new GroupBox();
+            ordertime_label = new Label();
+            orderlist_label = new Label();
+            ordercost_label = new Label();
+            orderid_label = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -64,15 +69,60 @@
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(439, 458);
             dataGridView1.TabIndex = 0;
+            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(ordertime_label);
+            groupBox2.Controls.Add(orderlist_label);
+            groupBox2.Controls.Add(ordercost_label);
+            groupBox2.Controls.Add(orderid_label);
             groupBox2.Location = new Point(480, 80);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(599, 486);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Просмотр";
+            // 
+            // ordertime_label
+            // 
+            ordertime_label.AutoSize = true;
+            ordertime_label.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            ordertime_label.Location = new Point(18, 65);
+            ordertime_label.Name = "ordertime_label";
+            ordertime_label.Size = new Size(39, 20);
+            ordertime_label.TabIndex = 3;
+            ordertime_label.Text = "time";
+            // 
+            // orderlist_label
+            // 
+            orderlist_label.AutoSize = true;
+            orderlist_label.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            orderlist_label.Location = new Point(232, 34);
+            orderlist_label.Name = "orderlist_label";
+            orderlist_label.Size = new Size(49, 20);
+            orderlist_label.TabIndex = 2;
+            orderlist_label.Text = "books";
+            // 
+            // ordercost_label
+            // 
+            ordercost_label.AutoSize = true;
+            ordercost_label.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            ordercost_label.Location = new Point(17, 96);
+            ordercost_label.Name = "ordercost_label";
+            ordercost_label.Size = new Size(36, 20);
+            ordercost_label.TabIndex = 1;
+            ordercost_label.Text = "cost";
+            // 
+            // orderid_label
+            // 
+            orderid_label.AutoSize = true;
+            orderid_label.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            orderid_label.Location = new Point(17, 34);
+            orderid_label.Name = "orderid_label";
+            orderid_label.Size = new Size(22, 20);
+            orderid_label.TabIndex = 0;
+            orderid_label.Text = "id";
             // 
             // orders
             // 
@@ -87,6 +137,8 @@
             Load += orders_Load;
             groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -97,5 +149,9 @@
         private GroupBox groupBox1;
         private DataGridView dataGridView1;
         private GroupBox groupBox2;
+        private Label ordertime_label;
+        private Label orderlist_label;
+        private Label ordercost_label;
+        private Label orderid_label;
     }
 }

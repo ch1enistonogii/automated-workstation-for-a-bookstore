@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace automated_workstation_for_a_bookstore
         NpgsqlConnection connection;
         private NpgsqlDataAdapter dataAdapter;
         private DataTable dataTable;
+        private string result = "";
 
         double totalcost = 0.0;
         public cashbox(IConnectionProvider connectionProvider)
@@ -81,7 +83,7 @@ namespace automated_workstation_for_a_bookstore
                     DataTable newDataTable = new DataTable();
 
                     // Запрос для получения данных из выбранной таблицы
-                    string query = $"SELECT * FROM books WHERE {SearchComboBox.Text} = '{SearchTextBox.Text}';";
+                    string query = $"SELECT * FROM books WHERE {SearchComboBox.Text} ILIKE '%{SearchTextBox.Text}%';";
                     dataAdapter.SelectCommand = new NpgsqlCommand(query, connection);
                     dataAdapter.Fill(newDataTable);
 
@@ -236,6 +238,29 @@ namespace automated_workstation_for_a_bookstore
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
 
                 command.ExecuteNonQuery();
+
+                MessageBox.Show("Заказ оформлен");
+
+
+
+                // задаем текст для печати
+                result = GetDocument(connection);
+
+                // объект для печати
+                PrintDocument printDocument = new PrintDocument();
+
+                // обработчик события печати
+                printDocument.PrintPage += PrintPageHandler;
+
+                // диалог настройки печати
+                PrintDialog printDialog = new PrintDialog();
+
+                // установка объекта печати для его настройки
+                printDialog.Document = printDocument;
+
+                // если в диалоге было нажато ОК
+                if (printDialog.ShowDialog() == DialogResult.OK)
+                    printDialog.Document.Print(); // печатаем
             }
             catch (Exception ex)
             {
@@ -275,6 +300,101 @@ namespace automated_workstation_for_a_bookstore
             }
 
             return checklist.TrimEnd(',');
+        }
+
+        void PrintPageHandler(object sender, PrintPageEventArgs e)
+        {
+            // печать строки result
+            e.Graphics.DrawString(result, new Font("Arial", 14), Brushes.Black, 0, 0);
+        }
+
+        private string GetDocument(NpgsqlConnection connection)
+        {
+            result = "";
+            int id = 0;
+            int[] array = StringToIntArray(GetChecklist(connection));
+
+            result += $"\n\n\n\t\t\t\tЗаказ №{GetOrderId(connection)}\n";
+
+            result += "\t\t\t\t" + GetOrderTime(connection) + "\n";
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                id = array[i];
+                result += $"\t\t{i}) {GetNameOfBook(connection, id)}\t{ GetCostOfBook(connection, id)} тенге\n";
+            }
+            result += $"Чек на сумму{totalcost}";
+            return result;
+        }
+        public static int[] StringToIntArray(string input)
+        {
+            string[] parts = input.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            int[] array = new int[parts.Length];
+
+            for (int i = 0; i < parts.Length; i++)
+            {
+                array[i] = int.Parse(parts[i]);
+            }
+            return array;
+        }
+        private static string GetNameOfBook(NpgsqlConnection connection, int id)
+        {
+            string query = $"SELECT name FROM public.books WHERE id = {id}";
+
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+
+            object result = command.ExecuteScalar();
+
+            if (result != null)
+            {
+                string name = result.ToString();
+                return name;
+            }
+            else
+            {
+                return "Book not found.";
+            }
+        }
+
+        private static string GetCostOfBook(NpgsqlConnection connection, int id)
+        {
+            string query = $"SELECT cost FROM public.books WHERE id = {id}";
+
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+
+            object result = command.ExecuteScalar();
+
+            if (result != null)
+            {
+                string cost = result.ToString();
+                return cost;
+            }
+            else
+            {
+                return "Book not found.";
+            }
+        }
+        private static int GetOrderId(NpgsqlConnection connection)
+        {
+            string query = $"SELECT MAX(id) FROM orders";
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+
+
+            object result = command.ExecuteScalar();
+
+            int lastId = (int)result;
+            return lastId;
+        }
+        private static string GetOrderTime(NpgsqlConnection connection)
+        {
+            string query = $"SELECT time FROM orders ORDER BY time DESC LIMIT 1";
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+
+            object result = command.ExecuteScalar();
+
+            string lastTimestampString = result.ToString();
+            return lastTimestampString;
         }
     }
 }
