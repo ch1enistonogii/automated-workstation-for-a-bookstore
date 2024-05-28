@@ -44,15 +44,14 @@
             groupBox2 = new GroupBox();
             dataGridView2 = new DataGridView();
             groupBox3 = new GroupBox();
-            button1 = new Button();
+            delete_button = new Button();
+            refresh_button = new Button();
             groupBox4 = new GroupBox();
             orderButton = new Button();
             label5 = new Label();
             label4 = new Label();
             groupBox5 = new GroupBox();
-            label3 = new Label();
             label2 = new Label();
-            SearchComboBox = new ComboBox();
             SearchTextBox = new TextBox();
             SearchButton = new Button();
             menuStrip1.SuspendLayout();
@@ -187,7 +186,8 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(button1);
+            groupBox3.Controls.Add(delete_button);
+            groupBox3.Controls.Add(refresh_button);
             groupBox3.Location = new Point(894, 98);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(185, 303);
@@ -195,15 +195,25 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Дополнительно";
             // 
-            // button1
+            // delete_button
             // 
-            button1.Location = new Point(6, 275);
-            button1.Name = "button1";
-            button1.Size = new Size(173, 22);
-            button1.TabIndex = 0;
-            button1.Text = "Применить";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            delete_button.Location = new Point(14, 60);
+            delete_button.Name = "delete_button";
+            delete_button.Size = new Size(163, 31);
+            delete_button.TabIndex = 1;
+            delete_button.Text = "Очистить корзину";
+            delete_button.UseVisualStyleBackColor = true;
+            delete_button.Click += delete_button_Click;
+            // 
+            // refresh_button
+            // 
+            refresh_button.Location = new Point(14, 23);
+            refresh_button.Name = "refresh_button";
+            refresh_button.Size = new Size(163, 31);
+            refresh_button.TabIndex = 0;
+            refresh_button.Text = "Обновить таблицу";
+            refresh_button.UseVisualStyleBackColor = true;
+            refresh_button.Click += refresh_button_Click;
             // 
             // groupBox4
             // 
@@ -251,9 +261,7 @@
             // 
             // groupBox5
             // 
-            groupBox5.Controls.Add(label3);
             groupBox5.Controls.Add(label2);
-            groupBox5.Controls.Add(SearchComboBox);
             groupBox5.Controls.Add(SearchTextBox);
             groupBox5.Controls.Add(SearchButton);
             groupBox5.Location = new Point(107, 27);
@@ -261,49 +269,30 @@
             groupBox5.Size = new Size(972, 65);
             groupBox5.TabIndex = 6;
             groupBox5.TabStop = false;
-            groupBox5.Text = "Поиск по каталогу";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(589, 32);
-            label3.Name = "label3";
-            label3.Size = new Size(73, 15);
-            label3.TabIndex = 4;
-            label3.Text = "по колонке:";
+            groupBox5.Text = "Поиск";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(343, 32);
+            label2.Location = new Point(17, 32);
             label2.Name = "label2";
-            label2.Size = new Size(45, 15);
+            label2.Size = new Size(119, 15);
             label2.TabIndex = 3;
-            label2.Text = "Поиск:";
-            // 
-            // SearchComboBox
-            // 
-            SearchComboBox.FormattingEnabled = true;
-            SearchComboBox.Items.AddRange(new object[] { "id", "author", "pubhouse", "category", "genre", "pubyear", "type", "lang" });
-            SearchComboBox.Location = new Point(665, 29);
-            SearchComboBox.Name = "SearchComboBox";
-            SearchComboBox.Size = new Size(182, 23);
-            SearchComboBox.TabIndex = 2;
-            SearchComboBox.Text = "name";
+            label2.Text = "Поиск по названию:";
             // 
             // SearchTextBox
             // 
-            SearchTextBox.Location = new Point(394, 29);
+            SearchTextBox.Location = new Point(157, 29);
             SearchTextBox.Name = "SearchTextBox";
-            SearchTextBox.Size = new Size(161, 23);
+            SearchTextBox.Size = new Size(670, 23);
             SearchTextBox.TabIndex = 1;
             // 
             // SearchButton
             // 
             SearchButton.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
-            SearchButton.Location = new Point(864, 14);
+            SearchButton.Location = new Point(842, 19);
             SearchButton.Name = "SearchButton";
-            SearchButton.Size = new Size(102, 45);
+            SearchButton.Size = new Size(122, 37);
             SearchButton.TabIndex = 0;
             SearchButton.Text = "Поиск";
             SearchButton.UseVisualStyleBackColor = true;
@@ -360,13 +349,12 @@
         private DataGridView dataGridView1;
         private DataGridView dataGridView2;
         private Button SearchButton;
-        private Button button1;
         private TextBox SearchTextBox;
-        private Label label3;
         private Label label2;
-        private ComboBox SearchComboBox;
         private Label label5;
         private Label label4;
         private Button orderButton;
+        private Button delete_button;
+        private Button refresh_button;
     }
 }

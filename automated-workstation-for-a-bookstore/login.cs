@@ -13,40 +13,44 @@ namespace automated_workstation_for_a_bookstore
 {
     public partial class login : Form, IConnectionProvider
     {
-        private NpgsqlConnection connection;
+        private NpgsqlConnection connection; // Переменная для хранения подключения к базе данных Npgsql
 
         public login()
         {
-            InitializeComponent();
-            LoadConfig();
+            InitializeComponent(); // Инициализация компонентов формы авторизации
+            LoadConfig(); // Загрузка конфигурации подключения из файла
         }
 
-        public NpgsqlConnection GetConnection() => connection;
+        public NpgsqlConnection GetConnection() => connection; // Реализация метода интерфейса IConnectionProvider для получения существующего подключения
 
         private void OpenMenu()
         {
-            cashbox cashboxForm = new cashbox(this);
-            this.Hide();
-            cashboxForm.FormClosed += (s, args) => this.Close();
-            cashboxForm.Show();
+            // **Открытие формы кассы**
+
+            cashbox cashboxForm = new cashbox(this); // Создание экземпляра формы кассы, передавая ссылку на текущий объект login
+            this.Hide(); // Скрыть форму авторизации
+            cashboxForm.FormClosed += (s, args) => this.Close(); // Подписаться на событие закрытия формы кассы, чтобы закрыть форму авторизации при закрытии кассы
+            cashboxForm.Show(); // Отобразить форму кассы
         }
 
         private NpgsqlConnection CreateConnection()
-        // Функция создает подключение к базе данных
         {
+            // **Функция создания подключения к базе данных**
+
             try
             {
-                string configFilePath = "cfg\\config.txt";
-                string[] lines = File.ReadAllLines(configFilePath);
-                string connectionString = $"Server={textBoxIP.Text};Port={textBoxPort.Text};Database={textBoxDatabase.Text};User Id={textBoxUser.Text};Password={textBoxPassword.Text}";
-                return new NpgsqlConnection(connectionString);
+                string configFilePath = "cfg\\config.txt"; // Путь к файлу конфигурации
+                string[] lines = File.ReadAllLines(configFilePath); // Чтение строк из файла конфигурации
+                string connectionString = $"Server={textBoxIP.Text};Port={textBoxPort.Text};Database={textBoxDatabase.Text};User Id={textBoxUser.Text};Password={textBoxPassword.Text}"; // Формирование строки подключения на основе данных из формы
+                return new NpgsqlConnection(connectionString); // Создание подключения к базе данных
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при создании подключения из файла: {ex.Message}");
-                return null;
+                MessageBox.Show($"Ошибка при создании подключения из файла: {ex.Message}"); // Отображение сообщения об ошибке
+                return null; // Вернуть null в случае ошибки
             }
         }
+
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
@@ -54,75 +58,80 @@ namespace automated_workstation_for_a_bookstore
         }
 
         private void LoadConfig()
-        //  Функция загружает данные прердыдущего успешного подключения из config.txt, и использует их при подключении
         {
-            string configFilePath = "cfg\\config.txt";
+            // **Функция загрузки конфигурации из файла**
 
-            if (File.Exists(configFilePath) && File.ReadAllLines(configFilePath).Length > 0)
+            string configFilePath = "cfg\\config.txt"; // Путь к файлу конфигурации
+
+            if (File.Exists(configFilePath) && File.ReadAllLines(configFilePath).Length > 0) // Проверка существования и непустоты файла
             {
                 try
                 {
-                    string[] lines = File.ReadAllLines(configFilePath);
-                    textBoxIP.Text = lines[0];
-                    textBoxPort.Text = lines[1];
-                    textBoxDatabase.Text = lines[2];
-                    textBoxUser.Text = lines[3];
+                    string[] lines = File.ReadAllLines(configFilePath); // Чтение строк из файла
+                    textBoxIP.Text = lines[0]; // Загрузка данных в textBoxIP
+                    textBoxPort.Text = lines[1]; // Загрузка данных в textBoxPort
+                    textBoxDatabase.Text = lines[2]; // Загрузка данных в textBoxDatabase
+                    textBoxUser.Text = lines[3]; // Загрузка данных в textBoxUser
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Ошибка при чтении данных из файла: {ex.Message}");
+                    MessageBox.Show($"Ошибка при чтении данных из файла: {ex.Message}"); // Отображение сообщения об ошибке
                 }
             }
         }
 
         private void SaveConfigData()
-        //  Функция обновляет данные дял подключение в файле config.txt
         {
-            string configFilePath = "cfg\\config.txt";
+            // **Функция сохранения конфигурации в файл**
+
+            string configFilePath = "cfg\\config.txt"; // Путь к файлу конфигурации
 
             try
             {
-                File.WriteAllText(configFilePath, $"{textBoxIP.Text}\n{textBoxPort.Text}\n{textBoxDatabase.Text}\n{textBoxUser.Text}");
+                File.WriteAllText(configFilePath, $"{textBoxIP.Text}\n{textBoxPort.Text}\n{textBoxDatabase.Text}\n{textBoxUser.Text}"); // Запись данных в файл
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при сохранении данных в файле конфигурации: {ex.Message}");
+                MessageBox.Show($"Ошибка при сохранении данных в файле конфигурации: {ex.Message}"); // Отображение сообщения об ошибке
             }
         }
 
         private void CheckConnectionButton_Click(object sender, EventArgs e)
-        //  Кнопка создает подключение, после чего открывает его и выводит статус
         {
-            connection = CreateConnection();
+            // **Обработчик нажатия кнопки "Проверка подключения"**
+
+            connection = CreateConnection(); // Создание подключения к базе данных
             try
             {
-                if (connection.State != ConnectionState.Open)
+                if (connection.State != ConnectionState.Open) // Проверка открытия подключения
                 {
-                    connection.Open();
+                    connection.Open(); // Открытие подключения
                 }
-                if (connection.State == ConnectionState.Open)
+
+                if (connection.State == ConnectionState.Open) // Проверка успешного открытия
                 {
-                    SaveConfigData();
-                    MessageBox.Show("Подключение установлено!");
+                    SaveConfigData(); // Сохранение конфигурации
+                    MessageBox.Show("Подключение установлено!"); // Отображение сообщения об успехе
+                    OpenMenu(); // Открытие формы кассы
                 }
                 else
                 {
-                    MessageBox.Show("Не удалось установить подключение к базе данных.");
+                    MessageBox.Show("Не удалось установить подключение к базе данных."); // Отображение сообщения об ошибке
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}");
+                MessageBox.Show($"Ошибка: {ex.Message}"); // Отображение сообщения об ошибке
             }
             finally
             {
-                if (connection.State == ConnectionState.Open)
+                if (connection.State == ConnectionState.Open) // Закрытие подключения в любом случае
                 {
                     connection.Close();
-                    OpenMenu();
                 }
             }
         }
+
 
         private void login_Load(object sender, EventArgs e)
         {

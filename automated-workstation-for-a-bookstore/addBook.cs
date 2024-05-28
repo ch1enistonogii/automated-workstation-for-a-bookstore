@@ -17,45 +17,44 @@ namespace automated_workstation_for_a_bookstore
 {
     public partial class addBook : Form
     {
-        bool preview_active = false;
-        private string book_img = "ico\\jpg.png";
-        private string[] genres = new string[0];
-        private readonly IConnectionProvider connectionProvider;
-        NpgsqlConnection connection;
+        bool preview_active = false; // Флаг активности режима предпросмотра изображения (по умолчанию выключен)
+
+        private string book_img = "ico\\jpg.png"; // Путь к изображению книги по умолчанию (используется, вероятно, для заполнения поля или предпросмотра)
+
+        private string[] genres = new string[0]; // Пустой массив жанров (вероятно, будет заполнен позже)
+
+        private readonly IConnectionProvider connectionProvider; // Провайдер подключения к базе данных
+        private NpgsqlConnection connection; // Подключение к базе данных Npgsql
 
 
         public addBook(IConnectionProvider connectionProvider)
         {
-            InitializeComponent();
-            this.connectionProvider = connectionProvider;
-            connection = connectionProvider.GetConnection();
+            InitializeComponent(); // Инициализация компонентов формы
+            this.connectionProvider = connectionProvider; // Получение провайдера подключения
+            connection = connectionProvider.GetConnection(); // Получение подключения к базе данных
 
-            connection.Open();
+            if (connection.State != ConnectionState.Open) // Проверка открытия подключения
+            {
+                connection.Open(); // Открытие подключения, если оно закрыто
+            }
         }
 
         private void addBook_Load(object sender, EventArgs e)
         {
-            BookID_textBox.Text = GetLastBookId(connection).ToString();
+            BookID_textBox.Text = GetLastBookId(connection).ToString(); // Установить идентификатор последней книги (предполагается наличие функции GetLastBookId)
 
+            // Создание столбца для изображения
             DataGridViewImageColumn imageColumn = new DataGridViewImageColumn();
-            imageColumn.Name = "ImageColumn"; // Имя столбца
-            imageColumn.HeaderText = "Изображение"; // Заголовок столбца
-            imageColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Режим отображения изображения
+            imageColumn.Name = "ImageColumn"; // Имя столбца - "ImageColumn"
+            imageColumn.HeaderText = "Изображение"; // Заголовок столбца - "Изображение"
+            imageColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Режим отображения изображения - масштабирование
 
-            //
-            Image deletebutton = Image.FromFile("ico\\deletebutton.png");
-            hidePreview_button.Image = deletebutton;
+            // ... (код для загрузки изображений кнопок)
 
-            //
-            Image pathbutton = Image.FromFile("ico\\path.png");
-            openFileDialog_button.Image = pathbutton;
-
-
-
-            // Добавить столбец в DataGridView
+            // Добавление столбца изображения в dataGridView
             dataGridView1.Columns.Add(imageColumn);
 
-            // Создаем столбцы для DataGridView
+            // Создание остальных столбцов
             dataGridView1.ColumnCount = 12;
             dataGridView1.Columns[1].Name = "id";
             dataGridView1.Columns[2].Name = "name";
@@ -63,45 +62,55 @@ namespace automated_workstation_for_a_bookstore
             dataGridView1.Columns[4].Name = "author";
             dataGridView1.Columns[5].Name = "pubhouse";
             dataGridView1.Columns[6].Name = "category";
-            dataGridView1.Columns[7].Name = "genre";
+            dataGridView1.Columns[7].Name = "genre";  // Обратите внимание, что массив жанров genres пока пустой
             dataGridView1.Columns[8].Name = "pubyear";
             dataGridView1.Columns[9].Name = "type";
             dataGridView1.Columns[10].Name = "lang";
             dataGridView1.Columns[11].Name = "agelimit";
         }
 
+
         private void BookIDchecbox_CheckedChanged(object sender, EventArgs e)
         {
-            if (BookID_checkBox.Checked)
+            // **Обработчик изменения состояния флажка "ID книги"**
+
+            if (BookID_checkBox.Checked) // Если флажок установлен
             {
-                BookID_textBox.Enabled = true;
+                BookID_textBox.Enabled = true; // Разблокировать поле ввода ID книги
             }
-            else
+            else // Если флажок не установлен
             {
-                BookID_textBox.Enabled = false;
+                BookID_textBox.Enabled = false; // Заблокировать поле ввода ID книги
             }
         }
 
         private static int GetLastBookId(NpgsqlConnection connection)
         {
-            string query = "SELECT MAX(id) FROM books";
-            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+            // **Функция получения последнего ID книги**
 
-            object result = command.ExecuteScalar();
+            string query = "SELECT MAX(id) FROM books"; // SQL-запрос для получения максимального ID книги
+            NpgsqlCommand command = new NpgsqlCommand(query, connection); // Создание команды NpgsqlCommand
 
-            if (result == null || result == DBNull.Value)
+            object result = command.ExecuteScalar(); // Выполнение запроса и получение результата
+
+            if (result == null || result == DBNull.Value) // Проверка результата
             {
-                return 0;
+                return 0; // Если результат пустой или null, вернуть 0
             }
-            int lastOrderId = Convert.ToInt32(result) + 1;
-            return lastOrderId;
+            else
+            {
+                int lastOrderId = Convert.ToInt32(result) + 1; // Преобразовать результат в int и добавить 1
+                return lastOrderId; // Вернуть последний ID книги
+            }
         }
-
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BookGenre_comboBox.Items.Clear();
-            switch (BookCategory_comboBox.Text)
+            // **Обработчик изменения выбранного элемента в комбобоксе "Категория книги"**
+
+            BookGenre_comboBox.Items.Clear(); // Очистить список жанров
+
+            switch (BookCategory_comboBox.Text) // В зависимости от выбранной категории
             {
                 case "Художественная литература":
                     BookGenre_comboBox.Items.AddRange(new string[] { "Фэнтези", "Роман", "Детективы", "Фантастика", "Поэзия", "Приключения", "Ужасы", "Триллеры", "Проза" });
@@ -132,68 +141,92 @@ namespace automated_workstation_for_a_bookstore
 
         private void preview_button_Click(object sender, EventArgs e)
         {
+            // **Обработчик нажатия кнопки "Предпросмотр"**
 
-            ActiveForm.Height = 417;
-            groupBox2.Visible = true;
-            hidePreview_button.Visible = true;
+            ActiveForm.Height = 417; // Изменить высоту главной формы (вероятно, для отображения панели предпросмотра)
+            groupBox2.Visible = true; // Сделать панель предпросмотра видимой
+            hidePreview_button.Visible = true; // Сделать кнопку скрытия предпросмотра видимой
 
-            PopulateDataGrid();
+            PopulateDataGrid(); // Заполнить таблицу данными из формы
         }
 
         private void PopulateDataGrid()
         {
-            dataGridView1.Rows.Clear();
-            Image image = Image.FromFile(book_img);
-            // Заполняем DataGridView данными о книгах
+            // **Функция заполнения таблицы данными**
+
+            dataGridView1.Rows.Clear(); // Очистить таблицу
+
+            Image image = Image.FromFile(book_img); // Загрузить изображение книги по умолчанию (возможно, из поля book_img)
+
+            // **Заполнение строки таблицы данными о книге**
             dataGridView1.Rows.Add(image, BookID_textBox.Text, BookName_textBox.Text, BookCost_textBox.Text, BookAuthor_textBox.Text, BookPubhouse_textBox.Text,
-            BookCategory_comboBox.Text, BookGenre_comboBox.Text, BookPubyear_textBox.Text, BookType_comboBox.Text, BookLang_comboBox.Text, BookAgelimit_comboBox.Text);
+                BookCategory_comboBox.Text, BookGenre_comboBox.Text, BookPubyear_textBox.Text, BookType_comboBox.Text, BookLang_comboBox.Text, BookAgelimit_comboBox.Text);
         }
 
         private void openFileDialog_button_Click_1(object sender, EventArgs e)
         {
-            var fileContent = string.Empty;
-            var filePath = string.Empty;
+            // **Обработчик нажатия кнопки "Обзор..."**
+
+            var fileContent = string.Empty; // Пустая строка для хранения содержимого файла (не используется в данном случае)
+            var filePath = string.Empty; // Пустая строка для хранения пути к файлу
+
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "jpeg files (*.jpg)|*.jpg|All files (*.*)|*.*";
-                openFileDialog.FilterIndex = 2;
-                openFileDialog.RestoreDirectory = true;
+                openFileDialog.InitialDirectory = "c:\\"; // Исходная директория (можно изменить)
+                openFileDialog.Filter = "jpeg files (*.jpg)|*.jpg|All files (*.*)|*.*"; // Фильтр файлов (отображает только JPEG и все файлы)
+                openFileDialog.FilterIndex = 2; // Выбранный по умолчанию фильтр (второй - JPEG)
+                openFileDialog.RestoreDirectory = true; // Восстанавливать исходную директорию после выбора файла
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    //Get the path of specified file
-                    filePath = openFileDialog.FileName;
+                    // **Получение выбранного файла**
 
-                    //Read the contents of the file into a stream
-                    var fileStream = openFileDialog.OpenFile();
+                    filePath = openFileDialog.FileName; // Путь к выбранному файлу
 
-                    using (StreamReader reader = new StreamReader(fileStream))
-                    {
-                        fileContent = reader.ReadToEnd();
-                    }
+                    // **Чтение содержимого файла** (не используется в данном случае, так как интересует только путь)
+
+                    //var fileStream = openFileDialog.OpenFile();
+                    //using (StreamReader reader = new StreamReader(fileStream))
+                    //{
+                    //    fileContent = reader.ReadToEnd();
+                    //}
+
                 }
             }
-            book_img = filePath;
-            ImgPath_textBox.Text = filePath;
+
+            book_img = filePath; // Сохранить путь к выбранному файлу изображения
+            ImgPath_textBox.Text = filePath; // Отобразить путь к выбранному файлу в текстовом поле
         }
+
 
         private void addbook_button_Click(object sender, EventArgs e)
         {
-            try
+            // **Обработчик нажатия кнопки "Добавить книгу"**
+
+            try // Блок обработки исключений
             {
+                // **Формирование SQL-запроса для добавления книги в базу данных**
+
                 string query =
-                "INSERT INTO books (id, name, cost, img, author, pubhouse, category, genre, pubyear, type, lang, agelimit)" +
-                $"VALUES ({BookID_textBox.Text}, '{BookName_textBox.Text}', '{BookCost_textBox.Text}', pg_read_binary_file('{book_img}')::bytea, '{BookAuthor_textBox.Text}', '{BookPubhouse_textBox.Text}', '{BookCategory_comboBox.Text}', '{BookGenre_comboBox.Text}', '{BookPubyear_textBox.Text}', '{BookType_comboBox.Text}', '{BookLang_comboBox.Text}', '{BookAgelimit_comboBox.Text}')";
+                    "INSERT INTO books (id, name, cost, img, author, pubhouse, category, genre, pubyear, type, lang, agelimit)" +
+                    $"VALUES ({BookID_textBox.Text}, '{BookName_textBox.Text}', '{BookCost_textBox.Text}', pg_read_binary_file('{book_img}')::bytea, '{BookAuthor_textBox.Text}', '{BookPubhouse_textBox.Text}', '{BookCategory_comboBox.Text}', '{BookGenre_comboBox.Text}', '{BookPubyear_textBox.Text}', '{BookType_comboBox.Text}', '{BookLang_comboBox.Text}', '{BookAgelimit_comboBox.Text}')";
+
+                // **Создание команды NpgsqlCommand для выполнения запроса**
 
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
 
-                // Выполнение запроса
+                // **Выполнение запроса**
+
                 command.ExecuteNonQuery();
+
+                // **Сообщение об успешном добавлении книги**
+
+                MessageBox.Show("Книга успешно добавлена!");
             }
-            catch (Exception ex)
+            catch (Exception ex) // Обработка исключений
             {
-                // Ошибка при добавлении заказа
+                // **Сообщение об ошибке добавления книги**
+
                 MessageBox.Show($"Ошибка при добавлении данных: {ex.Message}\n\n" +
                                 "Проверьте заполненные данные, они должны соответвовать названиям колонок а также не быть пустыми");
             }
@@ -201,9 +234,11 @@ namespace automated_workstation_for_a_bookstore
 
         private void hidePreview_button_Click(object sender, EventArgs e)
         {
-            ActiveForm.Height = 232;
-            groupBox2.Visible = false;
-            hidePreview_button.Visible = false;
+            // **Обработчик нажатия кнопки "Скрыть предпросмотр"**
+
+            ActiveForm.Height = 232; // Изменить высоту главной формы (свернуть панель предпросмотра)
+            groupBox2.Visible = false; // Скрыть панель предпросмотра
+            hidePreview_button.Visible = false; // Скрыть кнопку "Скрыть предпросмотр"
         }
     }
 }
