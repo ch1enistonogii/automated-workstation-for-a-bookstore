@@ -21,6 +21,12 @@ namespace automated_workstation_for_a_bookstore
             LoadConfig(); // Загрузка конфигурации подключения из файла
         }
 
+        private void login_Load(object sender, EventArgs e)
+        {
+            Image backgroundImage = Image.FromFile("ico\\background.jpg");
+            this.BackgroundImage = backgroundImage;
+        }
+
         public NpgsqlConnection GetConnection() => connection; // Реализация метода интерфейса IConnectionProvider для получения существующего подключения
 
         private void OpenMenu()
@@ -130,12 +136,6 @@ namespace automated_workstation_for_a_bookstore
                     connection.Close();
                 }
             }
-        }
-
-
-        private void login_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

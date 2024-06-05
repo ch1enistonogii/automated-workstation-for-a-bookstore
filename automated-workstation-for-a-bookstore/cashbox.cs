@@ -45,6 +45,9 @@ namespace automated_workstation_for_a_bookstore
         {
             // **Обработчик загрузки формы**
 
+            Image backgroundImage = Image.FromFile("ico\\background.jpg");
+            this.BackgroundImage = backgroundImage;
+
             dataGridView1.CellFormatting += dataGridView1_CellFormatting; // Подписка на событие форматирования ячеек dataGridView1 (необязательный код, зависит от реализации)
 
             LoadDataToDataGridView("Books"); // Загрузка данных в dataGridView1 из таблицы "Books" (предполагается наличие функции LoadDataToDataGridView)
@@ -65,6 +68,11 @@ namespace automated_workstation_for_a_bookstore
         private void LoadDataToDataGridView(string table)
         // Попытка загрузки данных из указанной таблицы**
         {
+            if (connection.State != ConnectionState.Open) // Проверка открытия подключения
+            {
+                connection.Open(); // Открытие подключения, если оно закрыто
+            }
+
             try
             {
                 // Создание нового DataTable для хранения загруженных данных
@@ -167,6 +175,20 @@ namespace automated_workstation_for_a_bookstore
 
                     // Заполнение DataTable данными из результата поиска
                     dataAdapter.Fill(newDataTable);
+
+                    // Перевод названий столбцов на русский язык
+                    newDataTable.Columns["id"].ColumnName = "ID";
+                    newDataTable.Columns["name"].ColumnName = "Название";
+                    newDataTable.Columns["cost"].ColumnName = "Цена";
+                    newDataTable.Columns["img"].ColumnName = "Изображение";
+                    newDataTable.Columns["author"].ColumnName = "Автор";
+                    newDataTable.Columns["pubhouse"].ColumnName = "Издательство";
+                    newDataTable.Columns["category"].ColumnName = "Категория";
+                    newDataTable.Columns["genre"].ColumnName = "Жанр";
+                    newDataTable.Columns["pubyear"].ColumnName = "Год издания";
+                    newDataTable.Columns["type"].ColumnName = "Тип обложки";
+                    newDataTable.Columns["lang"].ColumnName = "Язык";
+                    newDataTable.Columns["agelimit"].ColumnName = "Возраст";
 
                     // Привязка DataTable к DataGridView для отображения результатов
                     dataGridView1.DataSource = newDataTable;
@@ -585,6 +607,5 @@ namespace automated_workstation_for_a_bookstore
 
             dataGridView2.Rows.Clear(); // Очистка всех строк из dataGridView2 
         }
-
     }
 }

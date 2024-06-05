@@ -436,9 +436,11 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1086, 195);
+            ClientSize = new Size(1086, 197);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
+            MaximumSize = new Size(1102, 421);
+            MinimumSize = new Size(1102, 236);
             Name = "addBook";
             Text = "addBook";
             Load += addBook_Load;

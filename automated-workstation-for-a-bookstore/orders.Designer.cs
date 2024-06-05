@@ -32,6 +32,7 @@
             refresh_button = new Button();
             dataGridView1 = new DataGridView();
             groupBox2 = new GroupBox();
+            print_button = new Button();
             ordertime_label = new Label();
             orderlist_label = new Label();
             ordercost_label = new Label();
@@ -46,7 +47,6 @@
             чекиToolStripMenuItem = new ToolStripMenuItem();
             открытьToolStripMenuItem2 = new ToolStripMenuItem();
             открытьВНовойВкладкеToolStripMenuItem2 = new ToolStripMenuItem();
-            print_button = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox2.SuspendLayout();
@@ -55,6 +55,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox1.Controls.Add(refresh_button);
             groupBox1.Controls.Add(dataGridView1);
             groupBox1.Location = new Point(12, 37);
@@ -66,9 +67,10 @@
             // 
             // refresh_button
             // 
-            refresh_button.Location = new Point(13, 530);
+            refresh_button.Dock = DockStyle.Bottom;
+            refresh_button.Location = new Point(3, 533);
             refresh_button.Name = "refresh_button";
-            refresh_button.Size = new Size(114, 28);
+            refresh_button.Size = new Size(456, 28);
             refresh_button.TabIndex = 1;
             refresh_button.Text = "Обновить";
             refresh_button.UseVisualStyleBackColor = true;
@@ -76,6 +78,8 @@
             // 
             // dataGridView1
             // 
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            dataGridView1.BackgroundColor = SystemColors.ButtonHighlight;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(13, 22);
             dataGridView1.Name = "dataGridView1";
@@ -86,6 +90,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(print_button);
             groupBox2.Controls.Add(ordertime_label);
             groupBox2.Controls.Add(orderlist_label);
@@ -97,6 +102,17 @@
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Просмотр";
+            // 
+            // print_button
+            // 
+            print_button.Dock = DockStyle.Bottom;
+            print_button.Location = new Point(3, 533);
+            print_button.Name = "print_button";
+            print_button.Size = new Size(593, 28);
+            print_button.TabIndex = 2;
+            print_button.Text = "Печать";
+            print_button.UseVisualStyleBackColor = true;
+            print_button.Click += print_button_Click;
             // 
             // ordertime_label
             // 
@@ -213,16 +229,6 @@
             открытьВНовойВкладкеToolStripMenuItem2.Size = new Size(213, 22);
             открытьВНовойВкладкеToolStripMenuItem2.Text = "Открыть в новой вкладке";
             // 
-            // print_button
-            // 
-            print_button.Location = new Point(6, 530);
-            print_button.Name = "print_button";
-            print_button.Size = new Size(114, 28);
-            print_button.TabIndex = 2;
-            print_button.Text = "Печать";
-            print_button.UseVisualStyleBackColor = true;
-            print_button.Click += print_button_Click;
-            // 
             // orders
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -232,7 +238,7 @@
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "orders";
-            Text = "orders";
+            Text = "Чеки";
             Load += orders_Load;
             groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

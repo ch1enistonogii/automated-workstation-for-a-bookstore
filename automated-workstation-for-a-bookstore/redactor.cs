@@ -43,6 +43,10 @@ namespace automated_workstation_for_a_bookstore
 
         private void redactor_Load(object sender, EventArgs e)
         {
+            Image backgroundImage = Image.FromFile("ico\\background.jpg");
+            this.BackgroundImage = backgroundImage;
+
+
             dataGridView1.CellFormatting += dataGridView1_CellFormatting; // Подписать обработчик события форматирования ячейки
             LoadDataToDataGridView("Books"); // Загрузить данные в dataGridView из таблицы "Books"
         }
@@ -79,6 +83,11 @@ namespace automated_workstation_for_a_bookstore
         private void LoadDataToDataGridView(string table)
         {
             // **Функция заполняет dataGrid данными из SQL**
+
+            if (connection.State != ConnectionState.Open) // Проверка открытия подключения
+            {
+                connection.Open(); // Открытие подключения, если оно закрыто
+            }
 
             try
             {
@@ -189,6 +198,5 @@ namespace automated_workstation_for_a_bookstore
 
             LoadDataToDataGridView("Books"); // Загрузка данных из таблицы "Books" в DataGridView
         }
-
     }
 }

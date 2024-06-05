@@ -52,12 +52,23 @@ namespace automated_workstation_for_a_bookstore
 
         private void orders_Load(object sender, EventArgs e)
         {
+
+            Image backgroundImage = Image.FromFile("ico\\background.jpg");
+            this.BackgroundImage = backgroundImage;
+
+
             // Загрузка данных из таблицы "orders" в DataGridView
             LoadDataToDataGridView("orders");
         }
 
         private void LoadDataToDataGridView(string table)
         {
+
+            if (connection.State != ConnectionState.Open) // Проверка открытия подключения
+            {
+                connection.Open(); // Открытие подключения, если оно закрыто
+            }
+
             try
             {
                 // Создание новой пустой таблицы данных

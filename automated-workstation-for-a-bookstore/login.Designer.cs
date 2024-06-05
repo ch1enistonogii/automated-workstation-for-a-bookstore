@@ -49,7 +49,7 @@
             // groupBox1
             // 
             groupBox1.Controls.Add(textBoxIP);
-            groupBox1.Location = new Point(45, 89);
+            groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(261, 63);
             groupBox1.TabIndex = 0;
@@ -66,7 +66,7 @@
             // groupBox2
             // 
             groupBox2.Controls.Add(textBoxPort);
-            groupBox2.Location = new Point(45, 158);
+            groupBox2.Location = new Point(12, 81);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(261, 63);
             groupBox2.TabIndex = 2;
@@ -83,7 +83,7 @@
             // groupBox3
             // 
             groupBox3.Controls.Add(textBoxDatabase);
-            groupBox3.Location = new Point(45, 227);
+            groupBox3.Location = new Point(12, 150);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(261, 63);
             groupBox3.TabIndex = 2;
@@ -100,7 +100,7 @@
             // groupBox4
             // 
             groupBox4.Controls.Add(textBoxUser);
-            groupBox4.Location = new Point(45, 296);
+            groupBox4.Location = new Point(12, 219);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(261, 63);
             groupBox4.TabIndex = 2;
@@ -117,7 +117,7 @@
             // groupBox5
             // 
             groupBox5.Controls.Add(textBoxPassword);
-            groupBox5.Location = new Point(45, 365);
+            groupBox5.Location = new Point(12, 288);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(261, 63);
             groupBox5.TabIndex = 2;
@@ -134,7 +134,7 @@
             // CheckConnectionButton
             // 
             CheckConnectionButton.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            CheckConnectionButton.Location = new Point(45, 434);
+            CheckConnectionButton.Location = new Point(12, 357);
             CheckConnectionButton.Name = "CheckConnectionButton";
             CheckConnectionButton.Size = new Size(261, 63);
             CheckConnectionButton.TabIndex = 3;
@@ -146,14 +146,16 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(360, 546);
+            ClientSize = new Size(287, 433);
             Controls.Add(CheckConnectionButton);
             Controls.Add(groupBox2);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox5);
             Controls.Add(groupBox1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "login";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "login";
             Load += login_Load;
             groupBox1.ResumeLayout(false);

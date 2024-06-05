@@ -38,7 +38,6 @@
             чекиToolStripMenuItem = new ToolStripMenuItem();
             открытьToolStripMenuItem2 = new ToolStripMenuItem();
             открытьВНовойВкладкеToolStripMenuItem2 = new ToolStripMenuItem();
-            label1 = new Label();
             groupBox1 = new GroupBox();
             dataGridView1 = new DataGridView();
             groupBox2 = new GroupBox();
@@ -51,9 +50,9 @@
             label5 = new Label();
             label4 = new Label();
             groupBox5 = new GroupBox();
-            label2 = new Label();
             SearchTextBox = new TextBox();
             SearchButton = new Button();
+            panel1 = new Panel();
             menuStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -62,6 +61,7 @@
             groupBox3.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox5.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -134,63 +134,60 @@
             открытьВНовойВкладкеToolStripMenuItem2.Text = "Открыть в новой вкладке";
             открытьВНовойВкладкеToolStripMenuItem2.Click += открытьВНовойВкладкеToolStripMenuItem2_Click;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(26, 41);
-            label1.Name = "label1";
-            label1.Size = new Size(62, 25);
-            label1.TabIndex = 4;
-            label1.Text = "Касса";
-            // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(dataGridView1);
-            groupBox1.Location = new Point(12, 98);
+            groupBox1.Location = new Point(197, 43);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(876, 303);
+            groupBox1.Size = new Size(876, 313);
             groupBox1.TabIndex = 5;
             groupBox1.TabStop = false;
             groupBox1.Text = "Каталог";
             // 
             // dataGridView1
             // 
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView1.BackgroundColor = SystemColors.ButtonHighlight;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(6, 22);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(864, 275);
+            dataGridView1.Size = new Size(864, 279);
             dataGridView1.TabIndex = 0;
             dataGridView1.SelectionChanged += dataGridView1_SelectionChanged_1;
             // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(dataGridView2);
-            groupBox2.Location = new Point(12, 407);
+            groupBox2.Location = new Point(194, 5);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(876, 178);
+            groupBox2.Size = new Size(876, 234);
             groupBox2.TabIndex = 6;
             groupBox2.TabStop = false;
             groupBox2.Text = "Корзина";
             // 
             // dataGridView2
             // 
+            dataGridView2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView2.BackgroundColor = SystemColors.ButtonHighlight;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView2.Location = new Point(6, 22);
             dataGridView2.Name = "dataGridView2";
             dataGridView2.RowTemplate.Height = 25;
-            dataGridView2.Size = new Size(864, 150);
+            dataGridView2.Size = new Size(864, 206);
             dataGridView2.TabIndex = 1;
             dataGridView2.SelectionChanged += dataGridView2_SelectionChanged;
             // 
             // groupBox3
             // 
+            groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox3.Controls.Add(delete_button);
             groupBox3.Controls.Add(refresh_button);
-            groupBox3.Location = new Point(894, 98);
+            groupBox3.Location = new Point(6, 147);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(185, 303);
+            groupBox3.Size = new Size(185, 209);
             groupBox3.TabIndex = 7;
             groupBox3.TabStop = false;
             groupBox3.Text = "Дополнительно";
@@ -220,9 +217,9 @@
             groupBox4.Controls.Add(orderButton);
             groupBox4.Controls.Add(label5);
             groupBox4.Controls.Add(label4);
-            groupBox4.Location = new Point(894, 407);
+            groupBox4.Location = new Point(3, 5);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(185, 178);
+            groupBox4.Size = new Size(185, 234);
             groupBox4.TabIndex = 8;
             groupBox4.TabStop = false;
             groupBox4.Text = "К оплате";
@@ -231,9 +228,9 @@
             // 
             orderButton.BackColor = Color.LightGreen;
             orderButton.Font = new Font("Segoe UI Semibold", 12.75F, FontStyle.Bold, GraphicsUnit.Point);
-            orderButton.Location = new Point(6, 123);
+            orderButton.Location = new Point(5, 168);
             orderButton.Name = "orderButton";
-            orderButton.Size = new Size(173, 49);
+            orderButton.Size = new Size(173, 60);
             orderButton.TabIndex = 1;
             orderButton.Text = "Оформить покупку";
             orderButton.UseVisualStyleBackColor = false;
@@ -243,7 +240,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(55, 52);
+            label5.Location = new Point(49, 75);
             label5.Name = "label5";
             label5.Size = new Size(22, 25);
             label5.TabIndex = 1;
@@ -253,7 +250,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(38, 53);
+            label4.Location = new Point(32, 76);
             label4.Name = "label4";
             label4.Size = new Size(21, 21);
             label4.TabIndex = 0;
@@ -261,57 +258,57 @@
             // 
             // groupBox5
             // 
-            groupBox5.Controls.Add(label2);
             groupBox5.Controls.Add(SearchTextBox);
             groupBox5.Controls.Add(SearchButton);
-            groupBox5.Location = new Point(107, 27);
+            groupBox5.Location = new Point(12, 43);
+            groupBox5.MaximumSize = new Size(180, 98);
+            groupBox5.MinimumSize = new Size(180, 98);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(972, 65);
+            groupBox5.Size = new Size(180, 98);
             groupBox5.TabIndex = 6;
             groupBox5.TabStop = false;
             groupBox5.Text = "Поиск";
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(17, 32);
-            label2.Name = "label2";
-            label2.Size = new Size(119, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Поиск по названию:";
-            // 
             // SearchTextBox
             // 
-            SearchTextBox.Location = new Point(157, 29);
+            SearchTextBox.Location = new Point(6, 22);
             SearchTextBox.Name = "SearchTextBox";
-            SearchTextBox.Size = new Size(670, 23);
+            SearchTextBox.Size = new Size(163, 23);
             SearchTextBox.TabIndex = 1;
             // 
             // SearchButton
             // 
             SearchButton.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
-            SearchButton.Location = new Point(842, 19);
+            SearchButton.Location = new Point(8, 51);
             SearchButton.Name = "SearchButton";
-            SearchButton.Size = new Size(122, 37);
+            SearchButton.Size = new Size(161, 37);
             SearchButton.TabIndex = 0;
             SearchButton.Text = "Поиск";
             SearchButton.UseVisualStyleBackColor = true;
             SearchButton.Click += SearchButton_Click;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(groupBox4);
+            panel1.Controls.Add(groupBox2);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 362);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1091, 251);
+            panel1.TabIndex = 9;
             // 
             // cashbox
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1091, 613);
+            Controls.Add(panel1);
             Controls.Add(groupBox5);
-            Controls.Add(groupBox4);
             Controls.Add(groupBox3);
-            Controls.Add(groupBox2);
             Controls.Add(groupBox1);
-            Controls.Add(label1);
             Controls.Add(menuStrip1);
             Name = "cashbox";
-            Text = "cashbox";
+            Text = "Касса";
             Load += cashbox_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -324,6 +321,7 @@
             groupBox4.PerformLayout();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -340,7 +338,6 @@
         private ToolStripMenuItem чекиToolStripMenuItem;
         private ToolStripMenuItem открытьToolStripMenuItem2;
         private ToolStripMenuItem открытьВНовойВкладкеToolStripMenuItem2;
-        private Label label1;
         private GroupBox groupBox1;
         private GroupBox groupBox2;
         private GroupBox groupBox3;
@@ -350,11 +347,11 @@
         private DataGridView dataGridView2;
         private Button SearchButton;
         private TextBox SearchTextBox;
-        private Label label2;
         private Label label5;
         private Label label4;
         private Button orderButton;
         private Button delete_button;
         private Button refresh_button;
+        private Panel panel1;
     }
 }

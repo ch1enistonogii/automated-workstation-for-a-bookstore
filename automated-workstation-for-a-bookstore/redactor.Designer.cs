@@ -39,23 +39,26 @@
             чекиToolStripMenuItem = new ToolStripMenuItem();
             открытьToolStripMenuItem2 = new ToolStripMenuItem();
             открытьВНовойВкладкеToolStripMenuItem2 = new ToolStripMenuItem();
-            label1 = new Label();
             groupBox1 = new GroupBox();
+            panel1 = new Panel();
             DeleteButton = new Button();
-            addBookbutton = new Button();
             RefreshButton = new Button();
+            addBookbutton = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             menuStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridView1
             // 
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView1.BackgroundColor = SystemColors.ButtonHighlight;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(13, 22);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(953, 469);
+            dataGridView1.Size = new Size(953, 546);
             dataGridView1.TabIndex = 0;
             // 
             // menuStrip1
@@ -128,33 +131,33 @@
             открытьВНовойВкладкеToolStripMenuItem2.Text = "Открыть в новой вкладке";
             открытьВНовойВкладкеToolStripMenuItem2.Click += открытьВНовойВкладкеToolStripMenuItem2_Click;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(25, 48);
-            label1.Name = "label1";
-            label1.Size = new Size(224, 25);
-            label1.TabIndex = 3;
-            label1.Text = "Редактор данных в БД";
-            // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.BackColor = SystemColors.ButtonFace;
-            groupBox1.Controls.Add(RefreshButton);
-            groupBox1.Controls.Add(DeleteButton);
+            groupBox1.Controls.Add(panel1);
             groupBox1.Controls.Add(dataGridView1);
-            groupBox1.Controls.Add(addBookbutton);
-            groupBox1.Location = new Point(12, 104);
+            groupBox1.Location = new Point(12, 27);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1054, 497);
+            groupBox1.Size = new Size(1054, 574);
             groupBox1.TabIndex = 4;
             groupBox1.TabStop = false;
             groupBox1.Text = "Просмотр и редактирование";
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(DeleteButton);
+            panel1.Controls.Add(RefreshButton);
+            panel1.Controls.Add(addBookbutton);
+            panel1.Dock = DockStyle.Right;
+            panel1.Location = new Point(967, 19);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(84, 552);
+            panel1.TabIndex = 12;
+            // 
             // DeleteButton
             // 
-            DeleteButton.Location = new Point(972, 116);
+            DeleteButton.Location = new Point(3, 98);
             DeleteButton.Name = "DeleteButton";
             DeleteButton.Size = new Size(76, 41);
             DeleteButton.TabIndex = 10;
@@ -162,25 +165,25 @@
             DeleteButton.UseVisualStyleBackColor = true;
             DeleteButton.Click += DeleteButton_Click;
             // 
-            // addBookbutton
-            // 
-            addBookbutton.Location = new Point(972, 69);
-            addBookbutton.Name = "addBookbutton";
-            addBookbutton.Size = new Size(76, 41);
-            addBookbutton.TabIndex = 9;
-            addBookbutton.Text = "Добавить книгу";
-            addBookbutton.UseVisualStyleBackColor = true;
-            addBookbutton.Click += addBookbutton_Click;
-            // 
             // RefreshButton
             // 
-            RefreshButton.Location = new Point(972, 22);
+            RefreshButton.Location = new Point(3, 4);
             RefreshButton.Name = "RefreshButton";
             RefreshButton.Size = new Size(76, 41);
             RefreshButton.TabIndex = 11;
             RefreshButton.Text = "Обновить таблицу";
             RefreshButton.UseVisualStyleBackColor = true;
             RefreshButton.Click += RefreshButton_Click;
+            // 
+            // addBookbutton
+            // 
+            addBookbutton.Location = new Point(3, 51);
+            addBookbutton.Name = "addBookbutton";
+            addBookbutton.Size = new Size(76, 41);
+            addBookbutton.TabIndex = 9;
+            addBookbutton.Text = "Добавить книгу";
+            addBookbutton.UseVisualStyleBackColor = true;
+            addBookbutton.Click += addBookbutton_Click;
             // 
             // redactor
             // 
@@ -189,7 +192,6 @@
             BackColor = SystemColors.Control;
             ClientSize = new Size(1091, 613);
             Controls.Add(groupBox1);
-            Controls.Add(label1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "redactor";
@@ -199,6 +201,7 @@
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             groupBox1.ResumeLayout(false);
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -213,7 +216,6 @@
         private ToolStripMenuItem редакторToolStripMenuItem;
         private ToolStripMenuItem открытьToolStripMenuItem1;
         private ToolStripMenuItem открытьВНовойВкладкеToolStripMenuItem1;
-        private Label label1;
         private GroupBox groupBox1;
         private Button addBookbutton;
         private ToolStripMenuItem чекиToolStripMenuItem;
@@ -221,5 +223,6 @@
         private ToolStripMenuItem открытьВНовойВкладкеToolStripMenuItem2;
         private Button DeleteButton;
         private Button RefreshButton;
+        private Panel panel1;
     }
 }
