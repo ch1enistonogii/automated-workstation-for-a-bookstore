@@ -44,6 +44,8 @@ namespace automated_workstation_for_a_bookstore
             BookID_textBox.Text = GetLastBookId(connection).ToString(); // Установить идентификатор последней книги (предполагается наличие функции GetLastBookId)
 
             Image backgroundImage = Image.FromFile("ico\\background.jpg");
+            openFileDialog_button.ImageLocation = "ico\\path.png";
+            hidePreview_button.ImageLocation = "ico\\deletebutton.png";
             this.BackgroundImage = backgroundImage;
 
 
