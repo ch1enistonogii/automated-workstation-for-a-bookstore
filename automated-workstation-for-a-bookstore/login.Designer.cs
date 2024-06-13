@@ -62,6 +62,7 @@
             textBoxIP.Name = "textBoxIP";
             textBoxIP.Size = new Size(249, 23);
             textBoxIP.TabIndex = 1;
+            textBoxIP.TabStop = false;
             // 
             // groupBox2
             // 
@@ -79,6 +80,7 @@
             textBoxPort.Name = "textBoxPort";
             textBoxPort.Size = new Size(249, 23);
             textBoxPort.TabIndex = 1;
+            textBoxPort.TabStop = false;
             // 
             // groupBox3
             // 
@@ -96,6 +98,7 @@
             textBoxDatabase.Name = "textBoxDatabase";
             textBoxDatabase.Size = new Size(249, 23);
             textBoxDatabase.TabIndex = 1;
+            textBoxDatabase.TabStop = false;
             // 
             // groupBox4
             // 
@@ -113,6 +116,7 @@
             textBoxUser.Name = "textBoxUser";
             textBoxUser.Size = new Size(249, 23);
             textBoxUser.TabIndex = 1;
+            textBoxUser.TabStop = false;
             // 
             // groupBox5
             // 

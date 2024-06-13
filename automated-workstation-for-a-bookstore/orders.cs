@@ -50,6 +50,7 @@ namespace automated_workstation_for_a_bookstore
             }
         }
 
+
         private void orders_Load(object sender, EventArgs e)
         {
 
@@ -60,6 +61,7 @@ namespace automated_workstation_for_a_bookstore
             // Загрузка данных из таблицы "orders" в DataGridView
             LoadDataToDataGridView("orders");
         }
+
 
         private void LoadDataToDataGridView(string table)
         {
@@ -92,6 +94,7 @@ namespace automated_workstation_for_a_bookstore
                 MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
+
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
@@ -159,6 +162,8 @@ namespace automated_workstation_for_a_bookstore
                 }
             }
         }
+
+
         public static int[] StringToIntArray(string input)
         //Преобразует строку, разделенную запятыми и пробелами, в массив целых чисел.
         {
@@ -215,6 +220,7 @@ namespace automated_workstation_for_a_bookstore
             LoadDataToDataGridView("orders");
         }
 
+
         private static string GetCostOfBook(NpgsqlConnection connection, int id)
         {
             // **Получает стоимость книги по ее идентификатору.**
@@ -242,7 +248,6 @@ namespace automated_workstation_for_a_bookstore
             }
         }
 
-
         
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         // Обработчик события для пункта меню "Открыть (Касса)"
@@ -261,7 +266,6 @@ namespace automated_workstation_for_a_bookstore
             cashboxForm.Show();
         }
 
-
         
         private void открытьВНовойВкладкеToolStripMenuItem_Click(object sender, EventArgs e)
         // Обработчик события для пункта меню "Открыть (Касса) в новой вкладке"
@@ -274,7 +278,6 @@ namespace automated_workstation_for_a_bookstore
         }
 
 
-        
         private void открытьToolStripMenuItem1_Click(object sender, EventArgs e)
         // Обработчик события для пункта меню "Открыть (Редактор)"
         {
@@ -291,7 +294,6 @@ namespace automated_workstation_for_a_bookstore
             // Отобразить форму Redactor
             redactorForm.Show();
         }
-
 
         
         private void открытьВНовойВкладкеToolStripMenuItem1_Click(object sender, EventArgs e)

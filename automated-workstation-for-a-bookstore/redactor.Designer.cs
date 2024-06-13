@@ -195,7 +195,7 @@
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "redactor";
-            Text = "redactor";
+            Text = "Редактор";
             Load += redactor_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             menuStrip1.ResumeLayout(false);

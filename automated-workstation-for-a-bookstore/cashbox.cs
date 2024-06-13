@@ -23,11 +23,11 @@ namespace automated_workstation_for_a_bookstore
 
         private string result = ""; // Строка для хранения результата (временная переменная)
 
-        double totalcost = 0.0; // Общая стоимость заказа
+        private double totalcost = 0.0; // Общая стоимость заказа
 
         public cashbox(IConnectionProvider connectionProvider)
         {
-            // **Конструктор формы**
+            // Конструктор формы
 
             InitializeComponent();
             this.connectionProvider = connectionProvider; // Получение провайдера подключения
@@ -43,16 +43,16 @@ namespace automated_workstation_for_a_bookstore
 
         private void cashbox_Load(object sender, EventArgs e)
         {
-            // **Обработчик загрузки формы**
+            // Обработчик загрузки формы
 
             Image backgroundImage = Image.FromFile("ico\\background.jpg");
             this.BackgroundImage = backgroundImage;
 
-            dataGridView1.CellFormatting += dataGridView1_CellFormatting; // Подписка на событие форматирования ячеек dataGridView1 (необязательный код, зависит от реализации)
+            dataGridView1.CellFormatting += dataGridView1_CellFormatting; // Подписка на событие форматирования ячеек dataGridView1
 
-            LoadDataToDataGridView("Books"); // Загрузка данных в dataGridView1 из таблицы "Books" (предполагается наличие функции LoadDataToDataGridView)
+            LoadDataToDataGridView("Books"); // Загрузка данных в dataGridView1 из таблицы "Books"
 
-            dataGridView2.ColumnCount = 11; // Установка количества столбцов в dataGridView2 (для списка товаров в заказе и так далее)
+            dataGridView2.ColumnCount = 11; // Установка количества столбцов в dataGridView2 (Корзина)
             dataGridView2.Columns[0].Name = "id";
             dataGridView2.Columns[1].Name = "Название";
             dataGridView2.Columns[2].Name = "цена";
@@ -65,33 +65,39 @@ namespace automated_workstation_for_a_bookstore
             dataGridView2.Columns[9].Name = "Язык";
             dataGridView2.Columns[10].Name = "Возраст";
         }
-        private void LoadDataToDataGridView(string table)
-        // Попытка загрузки данных из указанной таблицы**
+
+        private void OpenConnection()
         {
             if (connection.State != ConnectionState.Open) // Проверка открытия подключения
             {
                 connection.Open(); // Открытие подключения, если оно закрыто
             }
+        }
+
+        private void LoadDataToDataGridView(string table)
+        {
+            OpenConnection(); // Функция открытия подключения
 
             try
             {
-                // Создание нового DataTable для хранения загруженных данных
+                // Создание таблицы данных для хранения загруженных данных
                 DataTable newDataTable = new DataTable();
 
                 // Формирование SQL-запроса для получения данных из выбранной таблицы
-                string query = $"SELECT * FROM {table}"; // Заменяет `{table}` на имя указанной таблицы
+                string query = $"SELECT * FROM {table}";
 
                 // Назначение запроса SelectCommand адаптеру данных
-                dataAdapter.SelectCommand = new NpgsqlCommand(query, connection); // Использует NpgsqlCommand для выполнения запроса
+                dataAdapter.SelectCommand = new NpgsqlCommand(query, connection);
 
-                // Заполнение DataTable данными из базы данных**
-                dataAdapter.Fill(newDataTable); // Заполняет newDataTable данными из запроса
+                // Заполнение DataTable данными из базы данных
+                dataAdapter.Fill(newDataTable);
 
                 // Перевод названий столбцов на русский язык
                 newDataTable.Columns["id"].ColumnName = "ID";
                 newDataTable.Columns["name"].ColumnName = "Название";
                 newDataTable.Columns["cost"].ColumnName = "Цена";
                 newDataTable.Columns["img"].ColumnName = "Изображение";
+                newDataTable.Columns["quantity"].ColumnName = "Количество";
                 newDataTable.Columns["author"].ColumnName = "Автор";
                 newDataTable.Columns["pubhouse"].ColumnName = "Издательство";
                 newDataTable.Columns["category"].ColumnName = "Категория";
@@ -102,13 +108,18 @@ namespace automated_workstation_for_a_bookstore
                 newDataTable.Columns["agelimit"].ColumnName = "Возраст";
 
                 // Привязка DataTable к DataGridView для отображения данных
-                dataGridView1.DataSource = newDataTable; // Отображает данные из newDataTable в DataGridView
+                dataGridView1.DataSource = newDataTable;
+
+                // Увеличение ширины колонки "Название"
+                dataGridView1.Columns["Название"].Width = 220;   // Ширина колонки "Название"
+                dataGridView1.Columns["Категория"].Width = 200;  // Ширина колонки "Категория"
+                dataGridView1.Columns["Жанр"].Width = 200;       // Ширина колонки "Жанр"
 
             }
             catch (Exception ex)
             {
                 // Обработка исключений при загрузке данных
-                MessageBox.Show($"Ошибка: {ex.Message}"); // Отображает сообщение об ошибке пользователю
+                MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
 
@@ -157,6 +168,8 @@ namespace automated_workstation_for_a_bookstore
         {
             // Обработка нажатия кнопки "Поиск"
 
+            OpenConnection();
+
             if (SearchTextBox.Text.Length != 0)
             {
                 // Проверка наличия текста в поле поиска
@@ -181,6 +194,7 @@ namespace automated_workstation_for_a_bookstore
                     newDataTable.Columns["name"].ColumnName = "Название";
                     newDataTable.Columns["cost"].ColumnName = "Цена";
                     newDataTable.Columns["img"].ColumnName = "Изображение";
+                    newDataTable.Columns["quantity"].ColumnName = "Количество";
                     newDataTable.Columns["author"].ColumnName = "Автор";
                     newDataTable.Columns["pubhouse"].ColumnName = "Издательство";
                     newDataTable.Columns["category"].ColumnName = "Категория";
@@ -211,55 +225,69 @@ namespace automated_workstation_for_a_bookstore
 
         private void dataGridView1_SelectionChanged_1(object sender, EventArgs e)
         {
-            // Обработчик события выбора строки в dataGridView1
-
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                // Проверка выбора строки
-                //   - Проверяет, выбрана ли хотя бы одна строка в dataGridView1
-
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-                object[] rowData = new object[11];
-                int dataIndex = 0;
+                int bookId = Convert.ToInt32(selectedRow.Cells[0].Value);
+                int currentQuantity = GetBookQuantity(bookId);
 
-                for (int i = 0; i < selectedRow.Cells.Count; i++)
+                if (currentQuantity > 0)
                 {
-                    // Копирование данных из выбранной строки, исключая изображение
-                    //   - Перебирает все ячейки выбранной строки
-                    //   - Пропускает ячейку с изображением (индекс 3, условное предположение)
-                    //   - Копирует значение ячейки в массив rowData
-                    //   - dataIndex - индекс для заполнения массива
+                    object[] rowData = new object[11];
+                    int dataIndex = 0;
 
-                    if (i != 3)
+                    for (int i = 0; i < selectedRow.Cells.Count; i++)
                     {
-                        rowData[dataIndex] = selectedRow.Cells[i].Value;
-                        dataIndex++;
+                        if (i != 3 && i != 4)
+                        {
+                            rowData[dataIndex] = selectedRow.Cells[i].Value;
+                            dataIndex++;
+                        }
                     }
+
+                    dataGridView2.Rows.Add(rowData);
+
+                    // Уменьшаем количество товара на складе
+                    UpdateBookQuantity(bookId, -1);
+                    CalculateCost();
                 }
-
-                // Добавление скопированных данных в новую строку dataGridView2
-                dataGridView2.Rows.Add(rowData);
-
-                // Расчет стоимости (предполагается отдельная функция)
-                CalculateCost();
+                else
+                {
+                    MessageBox.Show("Товара не хватает на складе.");
+                }
             }
         }
 
+        private int GetBookQuantity(int bookId)
+        {
+            OpenConnection();
+
+            string query = "SELECT quantity FROM books WHERE id = @bookId";
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+            command.Parameters.AddWithValue("@bookId", bookId);
+            int quantity = Convert.ToInt32(command.ExecuteScalar());
+
+            return quantity;
+        }
+
+
+        private void UpdateBookQuantity(int bookId, int quantityChange)
+        {
+            OpenConnection();
+
+            string query = "UPDATE books SET quantity = quantity + @quantityChange WHERE id = @bookId";
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);
+            command.Parameters.AddWithValue("@quantityChange", quantityChange);
+            command.Parameters.AddWithValue("@bookId", bookId);
+            command.ExecuteNonQuery();
+        }
+
+
         private void dataGridView2_SelectionChanged(object sender, EventArgs e)
         {
-            // Обработчик события выбора строки в dataGridView2
-
             if (dataGridView2.SelectedRows.Count > 0)
             {
-                // **Проверка выбора строки**
-                //   - Проверяет, выбрана ли хотя бы одна строка в dataGridView2
-
                 DataGridViewRow selectedRow = dataGridView2.SelectedRows[0];
-
-                // **Проверка пустоты строки**
-                //   - Перебирает все ячейки выбранной строки
-                //   - Если хотя бы одна ячейка не пустая, строка считается непустой
-                //   - isEmpty - флаг пустоты строки
 
                 bool isEmpty = true;
                 foreach (DataGridViewCell cell in selectedRow.Cells)
@@ -271,12 +299,13 @@ namespace automated_workstation_for_a_bookstore
                     }
                 }
 
-                // Удаление непустой строки
-                //   - Если строка не пустая, она удаляется из dataGridView2
-                //   - Расчет стоимости (предполагается отдельная функция)
-
                 if (!isEmpty)
                 {
+                    int bookId = Convert.ToInt32(selectedRow.Cells[0].Value);
+
+                    // Увеличиваем количество товара на складе
+                    UpdateBookQuantity(bookId, 1);
+
                     dataGridView2.Rows.RemoveAt(selectedRow.Index);
                     CalculateCost();
                 }
@@ -375,55 +404,84 @@ namespace automated_workstation_for_a_bookstore
 
         private void orderButton_Click(object sender, EventArgs e)
         {
-            // Обработчик нажатия кнопки "Заказ"
-
+            OpenConnection();
             try
             {
-                // Формирование SQL-запроса для добавления нового заказа
+                foreach (DataGridViewRow row in dataGridView2.Rows)
+                {
+                    if (!row.IsNewRow && row.Cells[0].Value != null)
+                    {
+                        int bookId = Convert.ToInt32(row.Cells[0].Value);
+                        int currentQuantity = GetBookQuantity(bookId);
 
-                string query =
-                    "INSERT INTO orders (id, checklist, sum)" +
-                    $"VALUES ('{GetLastOrder(connection)}', '{GetChecklist(connection)}', '{totalcost}')";
+                        if (currentQuantity < 0)
+                        {
+                            MessageBox.Show($"Товара с ID {bookId} не хватает на складе.");
+                            return;
+                        }
+                    }
+                }
 
+                string query = $"INSERT INTO orders (id, checklist, sum) VALUES ({GetLastOrder(connection)}, {GetChecklist(connection)}, {totalcost})";
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
-
-                // Выполнение запроса и добавление нового заказа
                 command.ExecuteNonQuery();
 
-                // Отображение сообщения об успешном оформлении заказа
+                // Обновление количества товара на складе после оформления заказа
+                foreach (DataGridViewRow row in dataGridView2.Rows)
+                {
+                    if (!row.IsNewRow && row.Cells[0].Value != null)
+                    {
+                        int bookId = Convert.ToInt32(row.Cells[0].Value);
+                    }
+                }
+
                 MessageBox.Show("Заказ оформлен");
 
+                // задаем текст для печати
+                result = GetDocument(connection);
 
-                // Подготовка текста для печати
-                string result = GetDocument(connection); // Предполагается, что функция GetDocument() возвращает текст для печати
-
-                // Создание объекта для печати
+                // объект для печати
                 PrintDocument printDocument = new PrintDocument();
 
-                // Обработчик события печати
+                // обработчик события печати
                 printDocument.PrintPage += PrintPageHandler;
 
-                // Отображение диалогового окна настройки печати
+                // диалог настройки печати
                 PrintDialog printDialog = new PrintDialog();
-                printDialog.Document = printDocument; // Установка объекта печати для его настройки
 
-                // Печать документа, если пользователь нажал "ОК"
+                // установка объекта печати для его настройки
+                printDialog.Document = printDocument;
+
+                // если в диалоге было нажато ОК
                 if (printDialog.ShowDialog() == DialogResult.OK)
+                    printDialog.Document.Print(); // печатаем
+
+                LoadDataToDataGridView("Books");
+                foreach (DataGridViewRow row in dataGridView2.Rows)
                 {
-                    printDialog.Document.Print();
+                    if (!row.IsNewRow && row.Cells[0].Value != null)
+                    {
+                        int bookId = Convert.ToInt32(row.Cells[0].Value);
+                        UpdateBookQuantity(bookId, 1);
+                    }
                 }
+                dataGridView2.Rows.Clear(); // Очистка всех строк из dataGridView2 (Корзина)
+                label5.Text = "0";          // Обнуление итоговой цены заказа
             }
             catch (Exception ex)
             {
-                // Обработка исключений
                 MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
 
 
+
+
         private int GetLastOrder(NpgsqlConnection connection)
         {
             // Получение идентификатора последнего заказа
+
+            OpenConnection();
 
             // Формирование SQL-запроса для получения максимального значения id из таблицы orders
             string query = "SELECT MAX(id) FROM orders";
@@ -448,6 +506,7 @@ namespace automated_workstation_for_a_bookstore
         {
             // Получение списка товаров из dataGridView2
 
+            OpenConnection();
             string checklist = "";
 
             // Итерация по строкам dataGridView2
@@ -486,15 +545,15 @@ namespace automated_workstation_for_a_bookstore
             // Функция формирования текста для печати
 
             string result = ""; // Инициализация переменной для результата (текста документа)
-            int id = 0; // Переменная для хранения ID товара
-            int index = 1; // Индекс для нумерации товаров в чеке
+            int id = 0;         // Переменная для хранения ID товара
+            int index = 1;      // Индекс для нумерации товаров в чеке
 
             // Получение списка ID товаров из checklist
             int[] array = StringToIntArray(GetChecklist(connection));
 
             // Заголовок чека (номер и дата заказа)
-            result += $"\n\n\t\t\tЗаказ №{GetOrderId(connection)}\n";  // Предполагается функция GetOrderId() для получения номера заказа
-            result += $"\t\t\t{GetOrderTime(connection)}\n\n";          // Предполагается функция GetOrderTime() для получения времени заказа
+            result += $"\n\n\t\t\tЗаказ №{GetOrderId(connection)}\n";  // функция GetOrderId() для получения номера заказа
+            result += $"\t\t\t{GetOrderTime(connection)}\n\n";         // функция GetOrderTime() для получения времени заказа
 
             // Перебор списка ID товаров и формирование информации для чека
             for (int i = 0; i < array.Length; i++)
@@ -503,28 +562,32 @@ namespace automated_workstation_for_a_bookstore
 
                 // Получение названия и цены товара по ID
                 result += $"{index++}) {GetNameOfBook(connection, id)}\n\t+ {GetCostOfBook(connection, id)} тенге\n";
-                // Предполагаются функции GetNameOfBook() и GetCostOfBook() для получения названия и цены товара по ID
+                // GetNameOfBook() и GetCostOfBook() для получения названия и цены товара по ID
             }
 
             // Итог чека (сумма заказа)
-            result += $"\n\n\tЧек на сумму {totalcost}";
+            result += $"\n\n\tЧек на сумму {totalcost} тенге";
 
             return result;
         }
 
         public static int[] StringToIntArray(string input)
+        //Преобразует строку, разделенную запятыми и пробелами, в массив целых чисел.
         {
-            // Функция преобразования строки в массив целых чисел
+            // Разделяет строку по запятым и пробелам, удаляя пустые элементы
+            string[] parts = input.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            string[] parts = input.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries); // Разделение строки по запятым и пробелам
-            int[] array = new int[parts.Length]; // Создание массива для чисел
+            // Создает массив для хранения преобразованных значений
+            int[] array = new int[parts.Length];
 
+            // Преобразовать каждую часть в int и добавить в массив
             for (int i = 0; i < parts.Length; i++)
             {
-                array[i] = int.Parse(  // Преобразование каждой части строки в int
-                    parts[i]);
+                // Преобразовать строковое значение в целое число
+                array[i] = int.Parse(parts[i]);
             }
 
+            // **Возвращает массив целых чисел.**
             return array;
         }
 
@@ -532,8 +595,13 @@ namespace automated_workstation_for_a_bookstore
         {
             // Функция получения названия книги по ID
 
+            if (connection.State != ConnectionState.Open) // Проверка открытия подключения
+            {
+                connection.Open(); // Открытие подключения, если оно закрыто
+            }
+
             string query = $"SELECT name FROM public.books WHERE id = {id}"; // SQL-запрос для получения названия книги по ID
-            NpgsqlCommand command = new NpgsqlCommand(query, connection); // Создание команды для выполнения запроса
+            NpgsqlCommand command = new NpgsqlCommand(query, connection);    // Создание команды для выполнения запроса
 
             object result = command.ExecuteScalar(); // Выполнение запроса и получение результата
 
@@ -551,6 +619,11 @@ namespace automated_workstation_for_a_bookstore
         private static string GetCostOfBook(NpgsqlConnection connection, int id)
         {
             // Функция получения цены книги по ID
+
+            if (connection.State != ConnectionState.Open) // Проверка открытия подключения
+            {
+                connection.Open(); // Открытие подключения, если оно закрыто
+            }
 
             string query = $"SELECT cost FROM public.books WHERE id = {id}"; // SQL-запрос для получения цены книги по ID
             NpgsqlCommand command = new NpgsqlCommand(query, connection); // Создание команды для выполнения запроса
@@ -572,6 +645,11 @@ namespace automated_workstation_for_a_bookstore
         {
             // Функция получения последнего ID заказа
 
+            if (connection.State != ConnectionState.Open) // Проверка открытия подключения
+            {
+                connection.Open(); // Открытие подключения, если оно закрыто
+            }
+
             string query = $"SELECT MAX(id) FROM orders"; // SQL-запрос для получения максимального значения id из таблицы orders
             NpgsqlCommand command = new NpgsqlCommand(query, connection); // Создание команды для выполнения запроса
 
@@ -584,6 +662,11 @@ namespace automated_workstation_for_a_bookstore
         private static string GetOrderTime(NpgsqlConnection connection)
         {
             // Функция получения времени последнего заказа
+
+            if (connection.State != ConnectionState.Open) // Проверка открытия подключения
+            {
+                connection.Open(); // Открытие подключения, если оно закрыто
+            }
 
             string query = $"SELECT time FROM orders ORDER BY time DESC LIMIT 1"; // SQL-запрос для получения самого последнего времени заказа
             NpgsqlCommand command = new NpgsqlCommand(query, connection); // Создание команды для выполнения запроса
@@ -603,9 +686,16 @@ namespace automated_workstation_for_a_bookstore
 
         private void delete_button_Click(object sender, EventArgs e)
         {
-            // Обработчик нажатия кнопки "Удалить"
-
-            dataGridView2.Rows.Clear(); // Очистка всех строк из dataGridView2 
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                if (!row.IsNewRow && row.Cells[0].Value != null)
+                {
+                    int bookId = Convert.ToInt32(row.Cells[0].Value);
+                    UpdateBookQuantity(bookId, 1);
+                }
+            }
+            dataGridView2.Rows.Clear(); // Очистка всех строк из dataGridView2 (Корзина)
+            label5.Text = "0";          // Обнуление итоговой цены заказа
         }
     }
 }

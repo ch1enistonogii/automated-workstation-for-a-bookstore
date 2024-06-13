@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            groupBox17 = new GroupBox();
+            quantity_textBox = new TextBox();
             groupBox16 = new GroupBox();
             BookType_comboBox = new ComboBox();
             groupBox15 = new GroupBox();
@@ -37,10 +39,6 @@
             BookGenre_comboBox = new ComboBox();
             groupBox13 = new GroupBox();
             BookCategory_comboBox = new ComboBox();
-            groupBox12 = new GroupBox();
-            addbook_button = new Button();
-            preview_button = new Button();
-            BookID_checkBox = new CheckBox();
             groupBox10 = new GroupBox();
             BookAgelimit_comboBox = new ComboBox();
             groupBox9 = new GroupBox();
@@ -59,16 +57,20 @@
             BookName_textBox = new TextBox();
             groupBox3 = new GroupBox();
             BookID_textBox = new TextBox();
+            groupBox12 = new GroupBox();
+            addbook_button = new Button();
+            preview_button = new Button();
+            BookID_checkBox = new CheckBox();
             groupBox2 = new GroupBox();
             hidePreview_button = new PictureBox();
             dataGridView1 = new DataGridView();
             openFileDialog1 = new OpenFileDialog();
             groupBox1.SuspendLayout();
+            groupBox17.SuspendLayout();
             groupBox16.SuspendLayout();
             groupBox15.SuspendLayout();
             groupBox14.SuspendLayout();
             groupBox13.SuspendLayout();
-            groupBox12.SuspendLayout();
             groupBox10.SuspendLayout();
             groupBox9.SuspendLayout();
             groupBox8.SuspendLayout();
@@ -78,6 +80,7 @@
             ((System.ComponentModel.ISupportInitialize)openFileDialog_button).BeginInit();
             groupBox4.SuspendLayout();
             groupBox3.SuspendLayout();
+            groupBox12.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)hidePreview_button).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -85,11 +88,11 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(groupBox17);
             groupBox1.Controls.Add(groupBox16);
             groupBox1.Controls.Add(groupBox15);
             groupBox1.Controls.Add(groupBox14);
             groupBox1.Controls.Add(groupBox13);
-            groupBox1.Controls.Add(groupBox12);
             groupBox1.Controls.Add(groupBox10);
             groupBox1.Controls.Add(groupBox9);
             groupBox1.Controls.Add(groupBox8);
@@ -100,17 +103,35 @@
             groupBox1.Controls.Add(groupBox3);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1068, 178);
+            groupBox1.Size = new Size(1073, 178);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Добавление данных в таблицу \"Книги\"";
             // 
+            // groupBox17
+            // 
+            groupBox17.Controls.Add(quantity_textBox);
+            groupBox17.Location = new Point(599, 22);
+            groupBox17.Name = "groupBox17";
+            groupBox17.Size = new Size(111, 73);
+            groupBox17.TabIndex = 4;
+            groupBox17.TabStop = false;
+            groupBox17.Text = "Количество";
+            // 
+            // quantity_textBox
+            // 
+            quantity_textBox.Location = new Point(5, 22);
+            quantity_textBox.Name = "quantity_textBox";
+            quantity_textBox.Size = new Size(100, 23);
+            quantity_textBox.TabIndex = 3;
+            quantity_textBox.Text = "1";
+            // 
             // groupBox16
             // 
             groupBox16.Controls.Add(BookType_comboBox);
-            groupBox16.Location = new Point(598, 101);
+            groupBox16.Location = new Point(629, 101);
             groupBox16.Name = "groupBox16";
-            groupBox16.Size = new Size(144, 73);
+            groupBox16.Size = new Size(172, 73);
             groupBox16.TabIndex = 9;
             groupBox16.TabStop = false;
             groupBox16.Text = "Тип обложки";
@@ -122,14 +143,14 @@
             BookType_comboBox.Items.AddRange(new object[] { "Твердый переплет", "Мягкая обложка", "Переплет из картона", "Интегральнй переплет", "Суперобложка", "Спираль", "Кожанный переплет", "Твердая Обложка", "Ламинированный картон", "Жесткая подложка", "МДФ" });
             BookType_comboBox.Location = new Point(6, 22);
             BookType_comboBox.Name = "BookType_comboBox";
-            BookType_comboBox.Size = new Size(131, 23);
+            BookType_comboBox.Size = new Size(160, 23);
             BookType_comboBox.TabIndex = 2;
             BookType_comboBox.Text = "Твердый переплет";
             // 
             // groupBox15
             // 
             groupBox15.Controls.Add(BookPubyear_textBox);
-            groupBox15.Location = new Point(478, 101);
+            groupBox15.Location = new Point(509, 101);
             groupBox15.Name = "groupBox15";
             groupBox15.Size = new Size(114, 73);
             groupBox15.TabIndex = 8;
@@ -146,7 +167,7 @@
             // groupBox14
             // 
             groupBox14.Controls.Add(BookGenre_comboBox);
-            groupBox14.Location = new Point(233, 101);
+            groupBox14.Location = new Point(264, 101);
             groupBox14.Name = "groupBox14";
             groupBox14.Size = new Size(239, 73);
             groupBox14.TabIndex = 8;
@@ -168,7 +189,7 @@
             groupBox13.Controls.Add(BookCategory_comboBox);
             groupBox13.Location = new Point(6, 101);
             groupBox13.Name = "groupBox13";
-            groupBox13.Size = new Size(221, 73);
+            groupBox13.Size = new Size(252, 73);
             groupBox13.TabIndex = 8;
             groupBox13.TabStop = false;
             groupBox13.Text = "Категория";
@@ -180,58 +201,15 @@
             BookCategory_comboBox.Items.AddRange(new object[] { "Художественная литература", "Психологическая литература", "Детская литература", "Учебники и пособия", "Эзотерика", "Комиксы и графическая литература", "Искусство и культура", "Дом, досуг, хобби" });
             BookCategory_comboBox.Location = new Point(4, 22);
             BookCategory_comboBox.Name = "BookCategory_comboBox";
-            BookCategory_comboBox.Size = new Size(211, 23);
+            BookCategory_comboBox.Size = new Size(242, 23);
             BookCategory_comboBox.TabIndex = 3;
             BookCategory_comboBox.Text = "Художеcтвенная литература";
             BookCategory_comboBox.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
-            // groupBox12
-            // 
-            groupBox12.Controls.Add(addbook_button);
-            groupBox12.Controls.Add(preview_button);
-            groupBox12.Controls.Add(BookID_checkBox);
-            groupBox12.Location = new Point(956, 0);
-            groupBox12.Name = "groupBox12";
-            groupBox12.Size = new Size(112, 174);
-            groupBox12.TabIndex = 10;
-            groupBox12.TabStop = false;
-            groupBox12.Text = "Дополнительно";
-            // 
-            // addbook_button
-            // 
-            addbook_button.Location = new Point(6, 126);
-            addbook_button.Name = "addbook_button";
-            addbook_button.Size = new Size(100, 37);
-            addbook_button.TabIndex = 2;
-            addbook_button.Text = "Добавить";
-            addbook_button.UseVisualStyleBackColor = true;
-            addbook_button.Click += addbook_button_Click;
-            // 
-            // preview_button
-            // 
-            preview_button.Location = new Point(6, 83);
-            preview_button.Name = "preview_button";
-            preview_button.Size = new Size(100, 37);
-            preview_button.TabIndex = 1;
-            preview_button.Text = "Предпросмотр";
-            preview_button.UseVisualStyleBackColor = true;
-            preview_button.Click += preview_button_Click;
-            // 
-            // BookID_checkBox
-            // 
-            BookID_checkBox.AutoSize = true;
-            BookID_checkBox.Location = new Point(6, 22);
-            BookID_checkBox.Name = "BookID_checkBox";
-            BookID_checkBox.Size = new Size(68, 19);
-            BookID_checkBox.TabIndex = 0;
-            BookID_checkBox.Text = "Свой ID";
-            BookID_checkBox.UseVisualStyleBackColor = true;
-            BookID_checkBox.CheckedChanged += BookIDchecbox_CheckedChanged;
-            // 
             // groupBox10
             // 
             groupBox10.Controls.Add(BookAgelimit_comboBox);
-            groupBox10.Location = new Point(871, 101);
+            groupBox10.Location = new Point(961, 101);
             groupBox10.Name = "groupBox10";
             groupBox10.Size = new Size(79, 73);
             groupBox10.TabIndex = 8;
@@ -252,9 +230,9 @@
             // groupBox9
             // 
             groupBox9.Controls.Add(BookLang_comboBox);
-            groupBox9.Location = new Point(742, 101);
+            groupBox9.Location = new Point(807, 101);
             groupBox9.Name = "groupBox9";
-            groupBox9.Size = new Size(123, 73);
+            groupBox9.Size = new Size(148, 73);
             groupBox9.TabIndex = 7;
             groupBox9.TabStop = false;
             groupBox9.Text = "Язык";
@@ -266,14 +244,14 @@
             BookLang_comboBox.Items.AddRange(new object[] { "Русский язык", "Английский язык", "Казахский язык", "Немецкий язык", "Китайский язык", "Французский язык", "Японский язык", "Испанский язык", "Корейский язык" });
             BookLang_comboBox.Location = new Point(6, 22);
             BookLang_comboBox.Name = "BookLang_comboBox";
-            BookLang_comboBox.Size = new Size(110, 23);
+            BookLang_comboBox.Size = new Size(136, 23);
             BookLang_comboBox.TabIndex = 0;
             BookLang_comboBox.Text = "Русский язык";
             // 
             // groupBox8
             // 
             groupBox8.Controls.Add(BookPubhouse_textBox);
-            groupBox8.Location = new Point(788, 22);
+            groupBox8.Location = new Point(905, 22);
             groupBox8.Name = "groupBox8";
             groupBox8.Size = new Size(162, 73);
             groupBox8.TabIndex = 6;
@@ -291,7 +269,7 @@
             // 
             groupBox7.Controls.Add(BookAuthor_textBox);
             groupBox7.Controls.Add(groupBox11);
-            groupBox7.Location = new Point(599, 22);
+            groupBox7.Location = new Point(716, 22);
             groupBox7.Name = "groupBox7";
             groupBox7.Size = new Size(183, 73);
             groupBox7.TabIndex = 5;
@@ -396,13 +374,56 @@
             BookID_textBox.TabIndex = 3;
             BookID_textBox.Text = "0";
             // 
+            // groupBox12
+            // 
+            groupBox12.Controls.Add(addbook_button);
+            groupBox12.Controls.Add(preview_button);
+            groupBox12.Controls.Add(BookID_checkBox);
+            groupBox12.Location = new Point(1091, 16);
+            groupBox12.Name = "groupBox12";
+            groupBox12.Size = new Size(112, 174);
+            groupBox12.TabIndex = 10;
+            groupBox12.TabStop = false;
+            groupBox12.Text = "Дополнительно";
+            // 
+            // addbook_button
+            // 
+            addbook_button.Location = new Point(6, 126);
+            addbook_button.Name = "addbook_button";
+            addbook_button.Size = new Size(100, 37);
+            addbook_button.TabIndex = 2;
+            addbook_button.Text = "Добавить";
+            addbook_button.UseVisualStyleBackColor = true;
+            addbook_button.Click += addbook_button_Click;
+            // 
+            // preview_button
+            // 
+            preview_button.Location = new Point(6, 83);
+            preview_button.Name = "preview_button";
+            preview_button.Size = new Size(100, 37);
+            preview_button.TabIndex = 1;
+            preview_button.Text = "Предпросмотр";
+            preview_button.UseVisualStyleBackColor = true;
+            preview_button.Click += preview_button_Click;
+            // 
+            // BookID_checkBox
+            // 
+            BookID_checkBox.AutoSize = true;
+            BookID_checkBox.Location = new Point(6, 22);
+            BookID_checkBox.Name = "BookID_checkBox";
+            BookID_checkBox.Size = new Size(68, 19);
+            BookID_checkBox.TabIndex = 0;
+            BookID_checkBox.Text = "Свой ID";
+            BookID_checkBox.UseVisualStyleBackColor = true;
+            BookID_checkBox.CheckedChanged += BookIDchecbox_CheckedChanged;
+            // 
             // groupBox2
             // 
             groupBox2.Controls.Add(hidePreview_button);
             groupBox2.Controls.Add(dataGridView1);
             groupBox2.Location = new Point(12, 196);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1068, 177);
+            groupBox2.Size = new Size(1191, 177);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Предпросмотр";
@@ -410,7 +431,7 @@
             // 
             // hidePreview_button
             // 
-            hidePreview_button.Location = new Point(1038, 0);
+            hidePreview_button.Location = new Point(1160, 0);
             hidePreview_button.Name = "hidePreview_button";
             hidePreview_button.Size = new Size(24, 19);
             hidePreview_button.SizeMode = PictureBoxSizeMode.Zoom;
@@ -425,7 +446,7 @@
             dataGridView1.Location = new Point(6, 22);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 100;
-            dataGridView1.Size = new Size(1056, 141);
+            dataGridView1.Size = new Size(1178, 141);
             dataGridView1.TabIndex = 0;
             // 
             // openFileDialog1
@@ -436,22 +457,23 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1086, 197);
+            ClientSize = new Size(1208, 194);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
-            MaximumSize = new Size(1102, 421);
-            MinimumSize = new Size(1102, 236);
+            Controls.Add(groupBox12);
+            MaximumSize = new Size(1224, 416);
+            MinimumSize = new Size(1224, 233);
             Name = "addBook";
-            Text = "addBook";
+            Text = "Добавление книги";
             Load += addBook_Load;
             groupBox1.ResumeLayout(false);
+            groupBox17.ResumeLayout(false);
+            groupBox17.PerformLayout();
             groupBox16.ResumeLayout(false);
             groupBox15.ResumeLayout(false);
             groupBox15.PerformLayout();
             groupBox14.ResumeLayout(false);
             groupBox13.ResumeLayout(false);
-            groupBox12.ResumeLayout(false);
-            groupBox12.PerformLayout();
             groupBox10.ResumeLayout(false);
             groupBox9.ResumeLayout(false);
             groupBox8.ResumeLayout(false);
@@ -467,6 +489,8 @@
             groupBox4.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            groupBox12.ResumeLayout(false);
+            groupBox12.PerformLayout();
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)hidePreview_button).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -510,5 +534,7 @@
         private PictureBox hidePreview_button;
         private TextBox ImgPath_textBox;
         private PictureBox openFileDialog_button;
+        private GroupBox groupBox17;
+        private TextBox quantity_textBox;
     }
 }

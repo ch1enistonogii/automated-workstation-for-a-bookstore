@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,8 +47,10 @@ namespace automated_workstation_for_a_bookstore
             Image backgroundImage = Image.FromFile("ico\\background.jpg");
             this.BackgroundImage = backgroundImage;
 
-
             dataGridView1.CellFormatting += dataGridView1_CellFormatting; // Подписать обработчик события форматирования ячейки
+            dataGridView1.CellValueChanged += dataGridView1_CellValueChanged; // Подписать обработчик события изменения значения ячейки
+            dataGridView1.UserDeletingRow += dataGridView1_UserDeletingRow; // Подписать обработчик события удаления строки
+
             LoadDataToDataGridView("Books"); // Загрузить данные в dataGridView из таблицы "Books"
         }
 
@@ -79,6 +82,65 @@ namespace automated_workstation_for_a_bookstore
             }
         }
 
+        // **Обработчик изменения значения ячейки dataGridView**
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+                int id = Convert.ToInt32(row.Cells["id"].Value);
+                string columnName = dataGridView1.Columns[e.ColumnIndex].Name;
+                object newValue = row.Cells[e.ColumnIndex].Value;
+
+                UpdateDatabase(id, columnName, newValue);
+            }
+        }
+
+        // **Обработчик удаления строки dataGridView**
+
+        private void dataGridView1_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            int id = Convert.ToInt32(e.Row.Cells["id"].Value);
+            DeleteRowFromDatabase(id);
+        }
+
+        // **Метод обновления базы данных**
+
+        private void UpdateDatabase(int id, string columnName, object newValue)
+        {
+            try
+            {
+                using (NpgsqlCommand command = new NpgsqlCommand($"UPDATE Books SET {columnName} = @value WHERE id = @id", connection))
+                {
+                    command.Parameters.AddWithValue("@value", newValue);
+                    command.Parameters.AddWithValue("@id", id);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка обновления базы данных: {ex.Message}");
+            }
+        }
+
+        // **Метод удаления строки из базы данных**
+
+        private void DeleteRowFromDatabase(int id)
+        {
+            try
+            {
+                using (NpgsqlCommand command = new NpgsqlCommand("DELETE FROM Books WHERE id = @id", connection))
+                {
+                    command.Parameters.AddWithValue("@id", id);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка удаления строки из базы данных: {ex.Message}");
+            }
+        }
 
         private void LoadDataToDataGridView(string table)
         {
@@ -109,7 +171,6 @@ namespace automated_workstation_for_a_bookstore
                 MessageBox.Show($"Ошибка: {ex.Message}"); // Отображение сообщения об ошибке
             }
         }
-
 
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -154,7 +215,6 @@ namespace automated_workstation_for_a_bookstore
             orders ordersForm = new orders(connectionProvider); // Создать новую форму заказов
             ordersForm.Show(); // Показать форму заказов
         }
-
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {

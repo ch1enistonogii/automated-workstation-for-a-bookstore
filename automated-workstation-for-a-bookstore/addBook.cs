@@ -214,8 +214,8 @@ namespace automated_workstation_for_a_bookstore
                 // **Формирование SQL-запроса для добавления книги в базу данных**
 
                 string query =
-                    "INSERT INTO books (id, name, cost, img, author, pubhouse, category, genre, pubyear, type, lang, agelimit)" +
-                    $"VALUES ({BookID_textBox.Text}, '{BookName_textBox.Text}', '{BookCost_textBox.Text}', pg_read_binary_file('{book_img}')::bytea, '{BookAuthor_textBox.Text}', '{BookPubhouse_textBox.Text}', '{BookCategory_comboBox.Text}', '{BookGenre_comboBox.Text}', '{BookPubyear_textBox.Text}', '{BookType_comboBox.Text}', '{BookLang_comboBox.Text}', '{BookAgelimit_comboBox.Text}')";
+                    "INSERT INTO books (id, name, cost, img, quantity, author, pubhouse, category, genre, pubyear, type, lang, agelimit)" +
+                    $"VALUES ({BookID_textBox.Text}, '{BookName_textBox.Text}', '{BookCost_textBox.Text}', pg_read_binary_file('{book_img}')::bytea,'{quantity_textBox.Text}' ,'{BookAuthor_textBox.Text}', '{BookPubhouse_textBox.Text}', '{BookCategory_comboBox.Text}', '{BookGenre_comboBox.Text}', '{BookPubyear_textBox.Text}', '{BookType_comboBox.Text}', '{BookLang_comboBox.Text}', '{BookAgelimit_comboBox.Text}')";
 
                 // **Создание команды NpgsqlCommand для выполнения запроса**
 

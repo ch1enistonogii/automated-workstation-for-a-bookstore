@@ -18,20 +18,20 @@ namespace automated_workstation_for_a_bookstore
         public login()
         {
             InitializeComponent(); // Инициализация компонентов формы авторизации
-            LoadConfig(); // Загрузка конфигурации подключения из файла
+            LoadConfig();          // Загрузка конфигурации подключения из файла
         }
 
         private void login_Load(object sender, EventArgs e)
         {
-            Image backgroundImage = Image.FromFile("ico\\background.jpg");
-            this.BackgroundImage = backgroundImage;
+            Image backgroundImage = Image.FromFile("ico\\background.jpg"); // Создание переменной image и присвоение ей картинки
+            this.BackgroundImage = backgroundImage; // Фону формы присваивается изображение
         }
 
         public NpgsqlConnection GetConnection() => connection; // Реализация метода интерфейса IConnectionProvider для получения существующего подключения
 
         private void OpenMenu()
         {
-            // **Открытие формы кассы**
+            // Открытие формы кассы
 
             cashbox cashboxForm = new cashbox(this); // Создание экземпляра формы кассы, передавая ссылку на текущий объект login
             this.Hide(); // Скрыть форму авторизации
@@ -57,15 +57,9 @@ namespace automated_workstation_for_a_bookstore
             }
         }
 
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void LoadConfig()
         {
-            // **Функция загрузки конфигурации из файла**
+            // Функция загрузки конфигурации из файла
 
             string configFilePath = "cfg\\config.txt"; // Путь к файлу конфигурации
 
@@ -88,7 +82,7 @@ namespace automated_workstation_for_a_bookstore
 
         private void SaveConfigData()
         {
-            // **Функция сохранения конфигурации в файл**
+            // Функция сохранения конфигурации в файл
 
             string configFilePath = "cfg\\config.txt"; // Путь к файлу конфигурации
 
@@ -104,7 +98,7 @@ namespace automated_workstation_for_a_bookstore
 
         private void CheckConnectionButton_Click(object sender, EventArgs e)
         {
-            // **Обработчик нажатия кнопки "Проверка подключения"**
+            // Обработчик нажатия кнопки "Проверка подключения"
 
             connection = CreateConnection(); // Создание подключения к базе данных
             try
