@@ -404,9 +404,10 @@ namespace automated_workstation_for_a_bookstore
 
         private void orderButton_Click(object sender, EventArgs e)
         {
-            OpenConnection();
             try
             {
+                OpenConnection();
+
                 foreach (DataGridViewRow row in dataGridView2.Rows)
                 {
                     if (!row.IsNewRow && row.Cells[0].Value != null)
@@ -422,51 +423,35 @@ namespace automated_workstation_for_a_bookstore
                     }
                 }
 
-                string query = $"INSERT INTO orders (id, checklist, sum) VALUES ({GetLastOrder(connection)}, {GetChecklist(connection)}, {totalcost})";
-                NpgsqlCommand command = new NpgsqlCommand(query, connection);
-                command.ExecuteNonQuery();
+                int lastOrderId = GetLastOrder(connection);
+                string checklist = GetChecklist(connection);
+                double totalCost = totalcost;
 
-                // Обновление количества товара на складе после оформления заказа
-                foreach (DataGridViewRow row in dataGridView2.Rows)
-                {
-                    if (!row.IsNewRow && row.Cells[0].Value != null)
-                    {
-                        int bookId = Convert.ToInt32(row.Cells[0].Value);
-                    }
-                }
+                string query = "INSERT INTO orders (id, checklist, sum) VALUES (@id, @checklist, @sum)";
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", lastOrderId);
+                command.Parameters.AddWithValue("@checklist", checklist);
+                command.Parameters.AddWithValue("@sum", totalCost);
+                command.ExecuteNonQuery();
 
                 MessageBox.Show("Заказ оформлен");
 
-                // задаем текст для печати
-                result = GetDocument(connection);
+                string result = GetDocument(connection);
 
-                // объект для печати
                 PrintDocument printDocument = new PrintDocument();
-
-                // обработчик события печати
                 printDocument.PrintPage += PrintPageHandler;
 
-                // диалог настройки печати
                 PrintDialog printDialog = new PrintDialog();
-
-                // установка объекта печати для его настройки
                 printDialog.Document = printDocument;
 
-                // если в диалоге было нажато ОК
                 if (printDialog.ShowDialog() == DialogResult.OK)
-                    printDialog.Document.Print(); // печатаем
+                {
+                    printDialog.Document.Print();
+                }
 
                 LoadDataToDataGridView("Books");
-                foreach (DataGridViewRow row in dataGridView2.Rows)
-                {
-                    if (!row.IsNewRow && row.Cells[0].Value != null)
-                    {
-                        int bookId = Convert.ToInt32(row.Cells[0].Value);
-                        UpdateBookQuantity(bookId, 1);
-                    }
-                }
-                dataGridView2.Rows.Clear(); // Очистка всех строк из dataGridView2 (Корзина)
-                label5.Text = "0";          // Обнуление итоговой цены заказа
+                dataGridView2.Rows.Clear();
+                label5.Text = "0";
             }
             catch (Exception ex)
             {
