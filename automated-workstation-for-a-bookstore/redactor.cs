@@ -16,15 +16,13 @@ namespace automated_workstation_for_a_bookstore
 {
     public partial class redactor : Form
     {
-        // **Поля класса**
-
+        // Поля класса
         private readonly IConnectionProvider connectionProvider; // Провайдер подключения к базе данных
         private NpgsqlConnection connection; // Подключение к базе данных Npgsql
         private NpgsqlDataAdapter dataAdapter; // Адаптер данных Npgsql
         private DataTable dataTable; // Таблица данных
 
-        // **Конструктор класса**
-
+        // Конструктор класса
         public redactor(IConnectionProvider connectionProvider)
         {
             InitializeComponent(); // Инициализация компонентов формы
@@ -40,26 +38,24 @@ namespace automated_workstation_for_a_bookstore
             }
         }
 
-        // **Обработчик загрузки формы**
-
+        // Обработчик загрузки формы
         private void redactor_Load(object sender, EventArgs e)
         {
-            Image backgroundImage = Image.FromFile("ico\\background.jpg");
-            this.BackgroundImage = backgroundImage;
+            Image backgroundImage = Image.FromFile("ico\\background.jpg"); // Загрузка фонового изображения
+            this.BackgroundImage = backgroundImage; // Установка фонового изображения
 
-            dataGridView1.CellFormatting += dataGridView1_CellFormatting; // Подписать обработчик события форматирования ячейки
-            dataGridView1.CellValueChanged += dataGridView1_CellValueChanged; // Подписать обработчик события изменения значения ячейки
-            dataGridView1.UserDeletingRow += dataGridView1_UserDeletingRow; // Подписать обработчик события удаления строки
+            // Подписка на события DataGridView
+            dataGridView1.CellFormatting += dataGridView1_CellFormatting; // Событие форматирования ячейки
+            dataGridView1.CellValueChanged += dataGridView1_CellValueChanged; // Событие изменения значения ячейки
+            dataGridView1.UserDeletingRow += dataGridView1_UserDeletingRow; // Событие удаления строки
 
-            LoadDataToDataGridView("Books"); // Загрузить данные в dataGridView из таблицы "Books"
+            LoadDataToDataGridView("Books"); // Загрузка данных в DataGridView из таблицы "Books"
         }
 
-        // **Обработчик форматирования ячеек dataGridView**
-
+        // Обработчик форматирования ячеек DataGridView
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // **Функция изменяет отображение столбца "img" для отображения изображений**
-
+            // Изменение отображения столбца "img" для отображения изображений
             if (dataGridView1.Columns[e.ColumnIndex].Name.Equals("img") && e.RowIndex >= 0)
             {
                 byte[] byteArray = e.Value as byte[]; // Получить массив байт из ячейки
@@ -82,70 +78,65 @@ namespace automated_workstation_for_a_bookstore
             }
         }
 
-        // **Обработчик изменения значения ячейки dataGridView**
-
+        // Обработчик изменения значения ячейки DataGridView
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                int id = Convert.ToInt32(row.Cells["id"].Value);
-                string columnName = dataGridView1.Columns[e.ColumnIndex].Name;
-                object newValue = row.Cells[e.ColumnIndex].Value;
+                DataGridViewRow row = dataGridView1.Rows[e.RowIndex]; // Получить измененную строку
+                int id = Convert.ToInt32(row.Cells["id"].Value); // Получить значение ID
+                string columnName = dataGridView1.Columns[e.ColumnIndex].Name; // Получить название столбца
+                object newValue = row.Cells[e.ColumnIndex].Value; // Получить новое значение
 
-                UpdateDatabase(id, columnName, newValue);
+                UpdateDatabase(id, columnName, newValue); // Обновить базу данных
             }
         }
 
-        // **Обработчик удаления строки dataGridView**
-
+        // Обработчик удаления строки DataGridView
         private void dataGridView1_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            int id = Convert.ToInt32(e.Row.Cells["id"].Value);
-            DeleteRowFromDatabase(id);
+            int id = Convert.ToInt32(e.Row.Cells["id"].Value); // Получить значение ID удаляемой строки
+            DeleteRowFromDatabase(id); // Удалить строку из базы данных
         }
 
-        // **Метод обновления базы данных**
-
+        // Метод обновления базы данных
         private void UpdateDatabase(int id, string columnName, object newValue)
         {
             try
             {
                 using (NpgsqlCommand command = new NpgsqlCommand($"UPDATE Books SET {columnName} = @value WHERE id = @id", connection))
                 {
-                    command.Parameters.AddWithValue("@value", newValue);
-                    command.Parameters.AddWithValue("@id", id);
-                    command.ExecuteNonQuery();
+                    command.Parameters.AddWithValue("@value", newValue); // Добавить параметр значения
+                    command.Parameters.AddWithValue("@id", id); // Добавить параметр ID
+                    command.ExecuteNonQuery(); // Выполнить команду
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка обновления базы данных: {ex.Message}");
+                MessageBox.Show($"Ошибка обновления базы данных: {ex.Message}"); // Отобразить сообщение об ошибке
             }
         }
 
-        // **Метод удаления строки из базы данных**
-
+        // Метод удаления строки из базы данных
         private void DeleteRowFromDatabase(int id)
         {
             try
             {
                 using (NpgsqlCommand command = new NpgsqlCommand("DELETE FROM Books WHERE id = @id", connection))
                 {
-                    command.Parameters.AddWithValue("@id", id);
-                    command.ExecuteNonQuery();
+                    command.Parameters.AddWithValue("@id", id); // Добавить параметр ID
+                    command.ExecuteNonQuery(); // Выполнить команду
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка удаления строки из базы данных: {ex.Message}");
+                MessageBox.Show($"Ошибка удаления строки из базы данных: {ex.Message}"); // Отобразить сообщение об ошибке
             }
         }
 
+        // Метод загрузки данных в DataGridView
         private void LoadDataToDataGridView(string table)
         {
-            // **Функция заполняет dataGrid данными из SQL**
-
             if (connection.State != ConnectionState.Open) // Проверка открытия подключения
             {
                 connection.Open(); // Открытие подключения, если оно закрыто
@@ -155,15 +146,13 @@ namespace automated_workstation_for_a_bookstore
             {
                 DataTable newDataTable = new DataTable(); // Создание новой таблицы данных
 
-                // **Запрос для получения данных из выбранной таблицы**
-
+                // Запрос для получения данных из выбранной таблицы
                 string query = $"SELECT * FROM {table}"; // Формирование SQL-запроса для выборки всех данных из указанной таблицы
                 dataAdapter.SelectCommand = new NpgsqlCommand(query, connection); // Назначение запроса адаптеру данных
 
                 dataAdapter.Fill(newDataTable); // Заполнение новой таблицы данными из запроса
 
-                // **Привязываем данные к DataGridView**
-
+                // Привязка данных к DataGridView
                 dataGridView1.DataSource = newDataTable; // Привязка таблицы данных к DataGridView
             }
             catch (Exception ex)
@@ -172,90 +161,77 @@ namespace automated_workstation_for_a_bookstore
             }
         }
 
+        // Обработчик нажатия пункта меню "Открыть кассу"
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // **Обработчик нажатия пункта меню "Открыть кассу"**
-
             cashbox cashboxForm = new cashbox(connectionProvider); // Создать новую форму кассы
             this.Hide(); // Скрыть текущую форму
-            cashboxForm.FormClosed += (s, args) => this.Close(); // Подписать на событие закрытия формы кассы, чтобы закрыть текущую форму по закрытии кассы
+            cashboxForm.FormClosed += (s, args) => this.Close(); // Подписка на событие закрытия формы кассы, чтобы закрыть текущую форму по закрытии кассы
             cashboxForm.Show(); // Показать форму кассы
         }
 
+        // Обработчик нажатия пункта меню "Открыть кассу в новой вкладке"
         private void открытьВНовойВкладкеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // **Обработчик нажатия пункта меню "Открыть кассу в новой вкладке"**
-
             cashbox cashboxForm = new cashbox(connectionProvider); // Создать новую форму кассы
             cashboxForm.Show(); // Показать форму кассы
         }
 
+        // Обработчик нажатия кнопки "Добавить книгу"
         private void addBookbutton_Click(object sender, EventArgs e)
         {
-            // **Обработчик нажатия кнопки "Добавить книгу"**
-
             addBook addBookForm = new addBook(connectionProvider); // Создать новую форму добавления книги
             addBookForm.Show(); // Показать форму добавления книги
         }
 
+        // Обработчик нажатия пункта меню "Открыть заказы"
         private void открытьToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            // **Обработчик нажатия пункта меню "Открыть заказы"**
-
             orders ordersForm = new orders(connectionProvider); // Создать новую форму заказов
             this.Hide(); // Скрыть текущую форму
-            ordersForm.FormClosed += (s, args) => this.Close(); // Подписать на событие закрытия формы заказов, чтобы закрыть текущую форму по закрытии заказов
+            ordersForm.FormClosed += (s, args) => this.Close(); // Подписка на событие закрытия формы заказов, чтобы закрыть текущую форму по закрытии заказов
             ordersForm.Show(); // Показать форму заказов
         }
 
+        // Обработчик нажатия пункта меню "Открыть заказы в новой вкладке"
         private void открытьВНовойВкладкеToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            // **Обработчик нажатия пункта меню "Открыть заказы в новой вкладке"**
-
             orders ordersForm = new orders(connectionProvider); // Создать новую форму заказов
             ordersForm.Show(); // Показать форму заказов
         }
 
+        // Обработчик нажатия кнопки "Удалить"
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            // **Обработчик нажатия кнопки "Удалить"**
-
-            // **Получить выбранную строку**
-
+            // Получить выбранную строку
             DataGridViewRow selectedRow = dataGridView1.SelectedRows[0]; // Получить первую выбранную строку
 
-            // **Проверить, есть ли выбранная строка**
-
+            // Проверяет, есть ли выбранная строка
             if (selectedRow != null) // Проверка наличия выбранной строки
             {
-                // **Получить значение первичного ключа из выбранной строки**
-
+                // Получает значение первичного ключа из выбранной строки
                 int id = (int)selectedRow.Cells["id"].Value; // Предполагается, что столбец "id" содержит первичный ключ
 
-                // **Удалить строку из базы данных**
-
+                // Удаляет строку из базы данных
                 using (NpgsqlCommand command = new NpgsqlCommand("DELETE FROM Books WHERE id = @id", connection)) // Создание SQL-запроса для удаления
                 {
                     command.Parameters.AddWithValue("@id", id); // Добавление параметра в запрос с значением первичного ключа
                     command.ExecuteNonQuery(); // Выполнение запроса
                 }
 
-                // **Обновить DataGridView**
-
+                // Обновляет DataGridView
                 dataGridView1.Rows.Remove(selectedRow); // Удаление выбранной строки из DataGridView
             }
             else
             {
-                // **Вывести сообщение об ошибке, если строка не выбрана**
-
+                // Выводит сообщение об ошибке, если строка не выбрана
                 MessageBox.Show("Пожалуйста, выберите строку для удаления."); // Отображение сообщения об ошибке
             }
         }
 
+        // Обработчик нажатия кнопки "Обновить"
         private void RefreshButton_Click(object sender, EventArgs e)
         {
-            // **Обработчик нажатия кнопки "Обновить"**
-
             LoadDataToDataGridView("Books"); // Загрузка данных из таблицы "Books" в DataGridView
         }
     }

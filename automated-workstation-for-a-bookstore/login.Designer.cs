@@ -160,7 +160,7 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "login";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "login";
+            Text = "Логин";
             Load += login_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

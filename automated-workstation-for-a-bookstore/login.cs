@@ -41,12 +41,10 @@ namespace automated_workstation_for_a_bookstore
 
         private NpgsqlConnection CreateConnection()
         {
-            // **Функция создания подключения к базе данных**
+            // Функция создания подключения к базе данных
 
             try
             {
-                string configFilePath = "cfg\\config.txt"; // Путь к файлу конфигурации
-                string[] lines = File.ReadAllLines(configFilePath); // Чтение строк из файла конфигурации
                 string connectionString = $"Server={textBoxIP.Text};Port={textBoxPort.Text};Database={textBoxDatabase.Text};User Id={textBoxUser.Text};Password={textBoxPassword.Text}"; // Формирование строки подключения на основе данных из формы
                 return new NpgsqlConnection(connectionString); // Создание подключения к базе данных
             }
@@ -122,13 +120,6 @@ namespace automated_workstation_for_a_bookstore
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка: {ex.Message}"); // Отображение сообщения об ошибке
-            }
-            finally
-            {
-                if (connection.State == ConnectionState.Open) // Закрытие подключения в любом случае
-                {
-                    connection.Close();
-                }
             }
         }
     }

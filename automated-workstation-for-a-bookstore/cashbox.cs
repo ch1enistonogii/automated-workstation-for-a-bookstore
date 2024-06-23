@@ -45,8 +45,8 @@ namespace automated_workstation_for_a_bookstore
         {
             // Обработчик загрузки формы
 
-            Image backgroundImage = Image.FromFile("ico\\background.jpg");
-            this.BackgroundImage = backgroundImage;
+            Image backgroundImage = Image.FromFile("ico\\background.jpg"); // Путь до фонового изображения
+            this.BackgroundImage = backgroundImage; // Применение фонового изображения
 
             dataGridView1.CellFormatting += dataGridView1_CellFormatting; // Подписка на событие форматирования ячеек dataGridView1
 
@@ -209,7 +209,7 @@ namespace automated_workstation_for_a_bookstore
                 }
                 catch
                 {
-                    // **Обработка ошибок**
+                    // Обработка ошибок
                     //   - Если при поиске возникла ошибка, загружаются все книги
 
                     LoadDataToDataGridView("Books");
@@ -222,22 +222,31 @@ namespace automated_workstation_for_a_bookstore
             }
         }
 
-
         private void dataGridView1_SelectionChanged_1(object sender, EventArgs e)
         {
+            // Проверяет, есть ли выбранные строки в dataGridView1
             if (dataGridView1.SelectedRows.Count > 0)
             {
+                // Получает выбранную строку
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
+
+                // Получает ID книги из первой ячейки строки
                 int bookId = Convert.ToInt32(selectedRow.Cells[0].Value);
+
+                // Получает текущее количество книги на складе
                 int currentQuantity = GetBookQuantity(bookId);
 
+                // Проверяет, есть ли книга в наличии
                 if (currentQuantity > 0)
                 {
+                    // Создает массив для данных строки
                     object[] rowData = new object[11];
                     int dataIndex = 0;
 
+                    // Перебирает все ячейки выбранной строки
                     for (int i = 0; i < selectedRow.Cells.Count; i++)
                     {
+                        // Пропускает ячейки с индексами 3 и 4
                         if (i != 3 && i != 4)
                         {
                             rowData[dataIndex] = selectedRow.Cells[i].Value;
@@ -245,51 +254,68 @@ namespace automated_workstation_for_a_bookstore
                         }
                     }
 
+                    // Добавляет строку в dataGridView2
                     dataGridView2.Rows.Add(rowData);
 
-                    // Уменьшаем количество товара на складе
+                    // Обновляет количество книги на складе (уменьшает на 1)
                     UpdateBookQuantity(bookId, -1);
+
+                    // Пересчитывает стоимость
                     CalculateCost();
                 }
                 else
                 {
+                    // Сообщает пользователю, что товара не хватает на складе
                     MessageBox.Show("Товара не хватает на складе.");
                 }
             }
         }
 
+        // Метод для получения количества книг на складе по ID книги
         private int GetBookQuantity(int bookId)
         {
+            // Открывает соединение с базой данных
             OpenConnection();
 
+            // Формирует SQL-запрос для получения количества книг
             string query = "SELECT quantity FROM books WHERE id = @bookId";
             NpgsqlCommand command = new NpgsqlCommand(query, connection);
             command.Parameters.AddWithValue("@bookId", bookId);
+
+            // Выполняет запрос и получает количество книг
             int quantity = Convert.ToInt32(command.ExecuteScalar());
 
+            // Возвращает количество книг
             return quantity;
         }
 
-
+        // Метод для обновления количества книг на складе
         private void UpdateBookQuantity(int bookId, int quantityChange)
         {
+            // Открывает соединение с базой данных
             OpenConnection();
 
+            // Формирует SQL-запрос для обновления количества книг
             string query = "UPDATE books SET quantity = quantity + @quantityChange WHERE id = @bookId";
             NpgsqlCommand command = new NpgsqlCommand(query, connection);
             command.Parameters.AddWithValue("@quantityChange", quantityChange);
             command.Parameters.AddWithValue("@bookId", bookId);
+
+            // Выполняет запрос на обновление количества книг
             command.ExecuteNonQuery();
         }
 
-
+        // Обработчик события изменения выбора в dataGridView2
         private void dataGridView2_SelectionChanged(object sender, EventArgs e)
         {
+            // Проверяет, есть ли выбранные строки в dataGridView2
             if (dataGridView2.SelectedRows.Count > 0)
             {
+                // Получает выбранную строку
                 DataGridViewRow selectedRow = dataGridView2.SelectedRows[0];
 
                 bool isEmpty = true;
+                // Проверяет, есть ли не пустые ячейки в строке
                 foreach (DataGridViewCell cell in selectedRow.Cells)
                 {
                     if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
@@ -299,20 +325,22 @@ namespace automated_workstation_for_a_bookstore
                     }
                 }
 
+                // Если строка не пустая, выполняет действия
                 if (!isEmpty)
                 {
+                    // Получает ID книги из первой ячейки строки
                     int bookId = Convert.ToInt32(selectedRow.Cells[0].Value);
 
-                    // Увеличиваем количество товара на складе
+                    // Обновляет количество книги на складе (увеличивает на 1)
                     UpdateBookQuantity(bookId, 1);
 
+                    // Удаляет строку из dataGridView2
                     dataGridView2.Rows.RemoveAt(selectedRow.Index);
+                    // Пересчитывает стоимость
                     CalculateCost();
                 }
             }
         }
-
-
         private void открытьToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             // Обработчик нажатия пункта меню "Открыть" (Редактор)
@@ -404,10 +432,14 @@ namespace automated_workstation_for_a_bookstore
 
         private void orderButton_Click(object sender, EventArgs e)
         {
+            // Кнопка оформления заказа
+
             try
             {
+                // Открывает соединение с базой данных
                 OpenConnection();
 
+                // Проверяет наличие товара на складе для каждого товара в dataGridView2
                 foreach (DataGridViewRow row in dataGridView2.Rows)
                 {
                     if (!row.IsNewRow && row.Cells[0].Value != null)
@@ -415,6 +447,7 @@ namespace automated_workstation_for_a_bookstore
                         int bookId = Convert.ToInt32(row.Cells[0].Value);
                         int currentQuantity = GetBookQuantity(bookId);
 
+                        // Если количество товара отрицательное, сообщает о нехватке товара и прерывает выполнение
                         if (currentQuantity < 0)
                         {
                             MessageBox.Show($"Товара с ID {bookId} не хватает на складе.");
@@ -423,10 +456,14 @@ namespace automated_workstation_for_a_bookstore
                     }
                 }
 
+                // Получает последний ID заказа
                 int lastOrderId = GetLastOrder(connection);
+                // Получает чек-лист для заказа
                 string checklist = GetChecklist(connection);
+                // Получает общую стоимость заказа
                 double totalCost = totalcost;
 
+                // Формирует SQL-запрос для вставки нового заказа в таблицу orders
                 string query = "INSERT INTO orders (id, checklist, sum) VALUES (@id, @checklist, @sum)";
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", lastOrderId);
@@ -434,31 +471,38 @@ namespace automated_workstation_for_a_bookstore
                 command.Parameters.AddWithValue("@sum", totalCost);
                 command.ExecuteNonQuery();
 
+                // Сообщает пользователю об успешном оформлении заказа
                 MessageBox.Show("Заказ оформлен");
 
+                // Получает документ для печати
                 string result = GetDocument(connection);
 
+                // Создает объект PrintDocument для печати чека
                 PrintDocument printDocument = new PrintDocument();
                 printDocument.PrintPage += PrintPageHandler;
 
+                // Создает и настраивает диалог печати
                 PrintDialog printDialog = new PrintDialog();
                 printDialog.Document = printDocument;
 
+                // Если пользователь соглашается на печать, запускает процесс печати
                 if (printDialog.ShowDialog() == DialogResult.OK)
                 {
                     printDialog.Document.Print();
                 }
 
+                // Обновляет данные в dataGridView1 и очищает dataGridView2
                 LoadDataToDataGridView("Books");
                 dataGridView2.Rows.Clear();
+                // Сбрасывает значение метки стоимости
                 label5.Text = "0";
             }
             catch (Exception ex)
             {
+                // Сообщает пользователю об ошибке
                 MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
-
 
 
 
@@ -502,7 +546,7 @@ namespace automated_workstation_for_a_bookstore
                 {
                     double cellValue;
 
-                    // Пытаемся преобразовать значение ячейки в double (предполагается ID товара)
+                    // Пытаемся преобразовать значение ячейки в double
                     if (double.TryParse(row.Cells[0].Value.ToString(), out cellValue))
                     {
                         // Добавление значения ячейки (ID товара) в список checklist с запятой
@@ -565,14 +609,14 @@ namespace automated_workstation_for_a_bookstore
             // Создает массив для хранения преобразованных значений
             int[] array = new int[parts.Length];
 
-            // Преобразовать каждую часть в int и добавить в массив
+            // Преобразует каждую часть в int и добавить в массив
             for (int i = 0; i < parts.Length; i++)
             {
                 // Преобразовать строковое значение в целое число
                 array[i] = int.Parse(parts[i]);
             }
 
-            // **Возвращает массив целых чисел.**
+            // Возвращает массив целых чисел.
             return array;
         }
 
@@ -666,7 +710,7 @@ namespace automated_workstation_for_a_bookstore
         {
             // Обработчик нажатия кнопки "Обновить"
 
-            LoadDataToDataGridView("Books"); // Предполагается, что функция LoadDataToDataGridView() загружает данные в dataGridView2 из таблицы "Books"
+            LoadDataToDataGridView("Books"); // Функция LoadDataToDataGridView() загружает данные в dataGridView2 из таблицы "Books"
         }
 
         private void delete_button_Click(object sender, EventArgs e)
